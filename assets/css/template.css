@@ -1,0 +1,126 @@
+body {
+	font-family: arial;
+	font-size: 14px;
+	width: 100%;
+	height: 100%;
+	min-width: 1024px;
+	min-height: 768px;
+	margin: 0px auto;
+}
+
+#header {
+	width: 100%;
+	height: 25px;
+	background-color: rgba(0,154,205,.40);
+	padding: 10px;
+	-webkit-box-shadow: 0px 10px 19px rgba(0, 154, 205, 0.61);
+	-moz-box-shadow:    0px 10px 19px rgba(0, 154, 205, 0.61);
+	box-shadow:         0px 10px 19px rgba(0, 154, 205, 0.61);
+}
+
+#header h3 {
+	float: left;
+	text-align: center;
+	width: 90%;
+	margin: 0px auto;
+	font-size: 24px;
+	color: #FFFFFF;
+	text-shadow: 0.1em 0.1em 0.05em #333333;
+}
+
+#logout_button {
+	float: right;
+	margin-right: 50px;
+}
+
+#menu {
+	text-decoration: none;
+	font-size: 16px;
+	padding: 10px;
+	float: left;
+	width: 11%;
+	height: 100%;
+	min-height: 768px;
+	background-color: rgba(0,154,205,.40);
+	-webkit-box-shadow: 10px 2px 19px rgba(0, 154, 205, 0.61);
+	-moz-box-shadow:    10px 2px 19px rgba(0, 154, 205, 0.61);
+	box-shadow:         10px 2px 19px rgba(0, 154, 205, 0.61);
+	z-index: 100;
+}
+
+#menu ul {
+	width: 100%;
+	padding-left: 15px;
+	list-style: none;
+}
+
+.menu_option {
+	border: 1px solid #d3d3d3;
+	width: 180px;
+	height: 30px;
+	background: #e6e6e6 url(smoothness/images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
+	font-weight: normal;
+	color: #555555;
+	display: inline-block;
+	position: relative;
+	padding: 0;
+	line-height: normal;
+	margin-right: .1em;
+	padding-top: 15px;
+	cursor: pointer;
+	vertical-align: middle;
+	text-align: center;
+	overflow: visible;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+}
+
+.menu_option:hover {
+	text-decoration: underline;
+	background: #FFFFFF url(smoothness/images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
+}
+
+.submenu {
+	display: none;
+}
+
+.menu_suboption {
+	font-size: 13px;
+	margin-top: 6px;
+	margin-bottom: 6px;
+	width: 180px;
+	height: 30px;
+	background: #e6e6e6 url(smoothness/images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
+	font-weight: normal;
+	color: #555555;
+	display: inline-block;
+	position: relative;
+	padding: 0;
+	line-height: normal;
+	margin-right: .1em;
+	padding-top: 15px;
+	cursor: pointer;
+	vertical-align: middle;
+	text-align: center;
+	overflow: visible;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+}
+
+.menu_suboption:hover {
+	text-decoration: underline;
+	background: #FFFFFF url(smoothness/images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
+}
+
+#content {
+	width: 82%;
+	float: right;
+	padding: 25px;
+}
+
+.button-active {
+	border: 3px solid #fcefa1;
+	color: #363636;
+}

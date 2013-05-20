@@ -20,9 +20,9 @@ class Prima extends CI_Controller {
 	{
 		if($this->_check_session())
 		{
-			$array['content'] = $this->load->view('prima/calculo_dias','',true);
-			$array['prima'] = TRUE;
-	        $this->load->view('template',$array);
+			$data['content'] = $this->load->view('prima/calculo_dias','',true);
+			$data['prima'] = TRUE;
+	        $this->load->view('template',$data);
 		}
 	}
 
@@ -30,9 +30,11 @@ class Prima extends CI_Controller {
 	{
 		if($this->_check_session())
 		{
-			$array['content'] = $this->load->view('prima/calculo_prima','',true);
-			$array['prima'] = TRUE;
-	        $this->load->view('template',$array);
+
+			$data['content'] = $this->load->view('prima/calculo_prima','',true);
+			$data['prima'] = TRUE;
+			$data['style'] = 'prima';
+	        $this->load->view('template',$data);
 		}
 	}
 
@@ -40,9 +42,9 @@ class Prima extends CI_Controller {
 	{
 		if($this->_check_session())
 		{
-			$array['content'] = $this->load->view('prima/reportes','',true);
-			$array['prima'] = TRUE;
-	        $this->load->view('template',$array);
+			$data['content'] = $this->load->view('prima/reportes','',true);
+			$data['prima'] = TRUE;
+	        $this->load->view('template',$data);
 		}
 	}
 

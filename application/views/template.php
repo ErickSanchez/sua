@@ -3,8 +3,11 @@
 	<head>
 		<meta charset="utf-8">
 		<title>SUA</title>
+		<link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/smoothness/jquery-ui-1.10.3.custom.min.css">
 		<link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/template.css">
+		<?php if(!empty($style)) 
+		echo '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/'.$style.'.css').'">';?>		
 		<script type="text/javascript" src="<?=base_url()?>assets/js/jquery-1.9.1.js"></script>
 		<script type="text/javascript" src="<?=base_url()?>assets/js/jquery-ui-1.10.3.custom.min.js"></script>
 		<script type="text/javascript">

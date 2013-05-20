@@ -9,7 +9,7 @@
 		<script type="text/javascript" src="<?=base_url()?>assets/js/jquery-ui-1.10.3.custom.min.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){
-				$(' .menu_option').click(function(){
+				$('.menu_option').click(function(){
 					if($(this).parent('ul').find('.submenu').css('display') == 'none')
 					{
 						$(this).parent('ul').find('.submenu').show("slow");
@@ -54,17 +54,17 @@
 				</li>
 			</ul>
 			<ul class="navigation">
-				<li class="menu_option">Determinación Prima RT</li>
-				<li class="submenu">
+				<li class="menu_option <?php if(!empty($prima)) echo 'button-active';?>">Determinación Prima RT</li>
+				<li class="submenu" <?php if(!empty($prima)) echo 'style="display:list-item;"';?>>
 					<ul>
 						<li class="menu_suboption">
 							<a href="<?=site_url('prima/calculo_dias')?>">Cálculo de Dias</a>
 						</li>
 						<li class="menu_suboption">
-							<a href="<?=site_url('prima/calculo_dias')?>">Cálculo de Prima RT</a>
+							<a href="<?=site_url('prima/calculo_prima')?>">Cálculo de Prima RT</a>
 						</li>
 						<li class="menu_suboption">
-							<a href="<?=site_url('prima/calculo_dias')?>">Obtención de Reportes</a>
+							<a href="<?=site_url('prima/reportes')?>">Obtención de Reportes</a>
 						</li>
 					</ul>
 				</li>

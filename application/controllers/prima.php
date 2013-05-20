@@ -2,8 +2,7 @@
 
 class Prima extends CI_Controller {
 
-	public function Prima() 
-	{
+	public function __construct() {
 		parent::__construct();
 		//$this->load->model('prima_model');
 	}
@@ -12,7 +11,7 @@ class Prima extends CI_Controller {
 	{
 		if($this->_check_session()){
 
-			$data['content'] = $this->load->view('prima/days_calculation','',true);
+			$data['content'] = $this->load->view('prima/calculo_dias','',true);
 	        $this->load->view('template',$data);
 		}		
 	}
@@ -21,7 +20,28 @@ class Prima extends CI_Controller {
 	{
 		if($this->_check_session())
 		{
-			$array['content'] = $this->load->view('prima/days_calculation','',true);
+			$array['content'] = $this->load->view('prima/calculo_dias','',true);
+			$array['prima'] = TRUE;
+	        $this->load->view('template',$array);
+		}
+	}
+
+	public function calculo_prima()
+	{
+		if($this->_check_session())
+		{
+			$array['content'] = $this->load->view('prima/calculo_prima','',true);
+			$array['prima'] = TRUE;
+	        $this->load->view('template',$array);
+		}
+	}
+
+	public function reportes()
+	{
+		if($this->_check_session())
+		{
+			$array['content'] = $this->load->view('prima/reportes','',true);
+			$array['prima'] = TRUE;
 	        $this->load->view('template',$array);
 		}
 	}

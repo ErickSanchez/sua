@@ -25,7 +25,11 @@
 					}
 				});
 
-				$(' #logout_button ').button();
+				$('#logout_button').button();
+
+				$('#prima li').click(function(){					
+					window.location.href = '<?= site_url();?>/'+$(this).attr('rel');
+				});
 			});
 		</script>
 	</head>
@@ -56,18 +60,18 @@
 					</ul>
 				</li>
 			</ul>
-			<ul class="navigation">
+			<ul  class="navigation">
 				<li class="menu_option <?php if(!empty($prima)) echo 'button-active';?>">Determinación Prima RT</li>
 				<li class="submenu" <?php if(!empty($prima)) echo 'style="display:list-item;"';?>>
-					<ul>
-						<li class="menu_suboption">
-							<a href="<?=site_url('prima/calculo_dias')?>">Cálculo de Dias</a>
+					<ul id="prima">
+						<li class="menu_suboption" rel="prima/calculo_dias">
+							Cálculo de Dias
 						</li>
-						<li class="menu_suboption">
-							<a href="<?=site_url('prima/calculo_prima')?>">Cálculo de Prima RT</a>
+						<li class="menu_suboption" rel="prima/calculo_prima">
+							Cálculo de Prima RT
 						</li>
-						<li class="menu_suboption">
-							<a href="<?=site_url('prima/reportes')?>">Obtención de Reportes</a>
+						<li class="menu_suboption" rel="prima/reportes">
+							Obtención de Reportes
 						</li>
 					</ul>
 				</li>

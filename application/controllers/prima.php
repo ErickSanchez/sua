@@ -18,41 +18,41 @@ class Prima extends CI_Controller {
 
 	public function calculo_dias()
 	{
-		if($this->_check_session())
-		{
+		$this->_check_session();
+
 			$data['content'] = $this->load->view('prima/calculo_dias','',true);
 			$data['prima'] = TRUE;
 	        $this->load->view('template',$data);
-		}
+		
 	}
 
 	public function calculo_prima()
 	{
-		if($this->_check_session())
-		{
+		$this->_check_session();
+		
 
 			$data['content'] = $this->load->view('prima/calculo_prima','',true);
 			$data['prima'] = TRUE;
 			$data['style'] = 'prima';
 	        $this->load->view('template',$data);
-		}
+		
 	}
 
 	public function reportes()
 	{
-		if($this->_check_session())
-		{
+		$this->_check_session();
+		
 			$data['content'] = $this->load->view('prima/reportes','',true);
 			$data['prima'] = TRUE;
 	        $this->load->view('template',$data);
-		}
+		
 	}
 
 	private function _check_session()
 	{		
 		if($this->session->userdata('loggedIn'))
 				return TRUE;
-		else
-			$this->redirect('login','refresh');
+		
+		$this->redirect('login','refresh');
 	}
 }

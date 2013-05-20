@@ -1,6 +1,7 @@
 <div class="row">
   <div class="span12 offset1">
-  	<form class="form-horizontal">
+  	<!--form class="form-horizontal"-->
+  	<?php echo form_open('',array('class'=>'form-horizontal'));?>
   		  <fieldset class="well">	  	
 	  		<div class="control-group span10">
 	    		<label class="control-label" for="registro-patronal-5">Año a Calcular</label>

@@ -75,7 +75,7 @@
 	    		</div>
 	  		</div>
 	  		<div class="control-group span6">
-	    		<label class="control-label" for="registro-patronal-5">Total de Dias Cotizados</label>
+	    		<label class="control-label" for="registro-patronal-5">Totall de Dias Cotizados</label>
 	    		<div class="controls">
 					<input type="text" id="" name="" class="span2" value="">
 	    		</div>

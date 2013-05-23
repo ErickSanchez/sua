@@ -2,8 +2,7 @@
 
 class Prima extends CI_Controller {
 
-	public function Prima() 
-	{
+	public function __construct() {
 		parent::__construct();
 		//$this->load->model('prima_model');
 	}
@@ -12,25 +11,48 @@ class Prima extends CI_Controller {
 	{
 		if($this->_check_session()){
 
-			$data['content'] = $this->load->view('prima/days_calculation','',true);
+			$data['content'] = $this->load->view('prima/calculo_dias','',true);
 	        $this->load->view('template',$data);
 		}		
 	}
 
 	public function calculo_dias()
 	{
-		if($this->_check_session())
-		{
-			$array['content'] = $this->load->view('prima/days_calculation','',true);
-	        $this->load->view('template',$array);
-		}
+		$this->_check_session();
+
+			$data['content'] = $this->load->view('prima/calculo_dias','',true);
+			$data['prima'] = TRUE;
+	        $this->load->view('template',$data);
+		
+	}
+
+	public function calculo_prima()
+	{
+		$this->_check_session();
+		
+
+			$data['content'] = $this->load->view('prima/calculo_prima','',true);
+			$data['prima'] = TRUE;
+			$data['style'] = 'prima';
+	        $this->load->view('template',$data);
+		
+	}
+
+	public function reportes()
+	{
+		$this->_check_session();
+		
+			$data['content'] = $this->load->view('prima/reportes','',true);
+			$data['prima'] = TRUE;
+	        $this->load->view('template',$data);
+		
 	}
 
 	private function _check_session()
 	{		
 		if($this->session->userdata('loggedIn'))
 				return TRUE;
-		else
-			$this->redirect('login','refresh');
+		
+		$this->redirect('login','refresh');
 	}
 }

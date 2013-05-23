@@ -3,13 +3,16 @@
 	<head>
 		<meta charset="utf-8">
 		<title>SUA</title>
+		<link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/smoothness/jquery-ui-1.10.3.custom.min.css">
 		<link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/template.css">
+		<?php if(!empty($style)) 
+		echo '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/'.$style.'.css').'">';?>		
 		<script type="text/javascript" src="<?=base_url()?>assets/js/jquery-1.9.1.js"></script>
 		<script type="text/javascript" src="<?=base_url()?>assets/js/jquery-ui-1.10.3.custom.min.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){
-				$(' .menu_option').click(function(){
+				$('.menu_option').click(function(){
 					if($(this).parent('ul').find('.submenu').css('display') == 'none')
 					{
 						$(this).parent('ul').find('.submenu').show("slow");
@@ -22,7 +25,11 @@
 					}
 				});
 
-				$(' #logout_button ').button();
+				$('#logout_button').button();
+
+				$('#prima li').click(function(){					
+					window.location.href = '<?= site_url();?>/'+$(this).attr('rel');
+				});
 			});
 		</script>
 	</head>
@@ -53,18 +60,18 @@
 					</ul>
 				</li>
 			</ul>
-			<ul class="navigation">
-				<li class="menu_option">Determinación Prima RT</li>
-				<li class="submenu">
-					<ul>
-						<li class="menu_suboption">
-							<a href="<?=site_url('prima/calculo_dias')?>">Cálculo de Dias</a>
+			<ul  class="navigation">
+				<li class="menu_option <?php if(!empty($prima)) echo 'button-active';?>">Determinación Prima RT</li>
+				<li class="submenu" <?php if(!empty($prima)) echo 'style="display:list-item;"';?>>
+					<ul id="prima">
+						<li class="menu_suboption" rel="prima/calculo_dias">
+							Cálculo de Dias
 						</li>
-						<li class="menu_suboption">
-							<a href="<?=site_url('prima/calculo_dias')?>">Cálculo de Prima RT</a>
+						<li class="menu_suboption" rel="prima/calculo_prima">
+							Cálculo de Prima RT
 						</li>
-						<li class="menu_suboption">
-							<a href="<?=site_url('prima/calculo_dias')?>">Obtención de Reportes</a>
+						<li class="menu_suboption" rel="prima/reportes">
+							Obtención de Reportes
 						</li>
 					</ul>
 				</li>

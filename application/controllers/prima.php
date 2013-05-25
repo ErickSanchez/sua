@@ -12,6 +12,9 @@ class Prima extends CI_Controller {
 		if($this->_check_session()){
 
 			$data['content'] = $this->load->view('prima/calculo_dias','',true);
+			$data['prima'] = TRUE;
+			$data['styles'] = array('prima','bootstrap.min');
+			$data['scripts'] = array('bootstrap.min');
 	        $this->load->view('template',$data);
 		}		
 	}
@@ -22,6 +25,8 @@ class Prima extends CI_Controller {
 
 			$data['content'] = $this->load->view('prima/calculo_dias','',true);
 			$data['prima'] = TRUE;
+			$data['styles'] = array('prima','bootstrap.min');
+			$data['scripts'] = array('bootstrap.min');
 	        $this->load->view('template',$data);
 		
 	}
@@ -33,7 +38,8 @@ class Prima extends CI_Controller {
 
 			$data['content'] = $this->load->view('prima/calculo_prima','',true);
 			$data['prima'] = TRUE;
-			$data['style'] = 'prima';
+			$data['styles'] = array('prima','bootstrap.min');
+			$data['scripts'] = array('bootstrap.min');
 	        $this->load->view('template',$data);
 		
 	}
@@ -44,6 +50,8 @@ class Prima extends CI_Controller {
 		
 			$data['content'] = $this->load->view('prima/reportes','',true);
 			$data['prima'] = TRUE;
+			$data['styles'] = array('prima','bootstrap.min');
+			$data['scripts'] = array('bootstrap.min');
 	        $this->load->view('template',$data);
 		
 	}

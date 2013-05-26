@@ -1,35 +1,76 @@
+  <script type="text/javascript">
+  var cange = [0,0,0];
+  	$(document).ready(function(){
+  		$("#reg-pat-2").change(function(){
+  			if(cange[0] == 0 && $('#reg-pat-4 option').size() > 2){
+  				$("#reg-pat-3").removeAttr('disabled');
+  				$(this).html('<option value="'+$(this).val()+'"selected>'+$(this).val()+'<option>');
+  				for(i=3;i<=5;i++)
+  					$("#reg-pat-"+i+" option[value='"+$(this).val()+"']").remove();
+  				cange[0] = 1;
+  			}
+  		});
+
+  		 $("#reg-pat-3").change(function(){
+  		 	if(cange[1] == 0 && $('#reg-pat-4 option').size() > 2){
+	  		 	$("#reg-pat-4").removeAttr('disabled');
+	  		 	$(this).html('<option value="'+$(this).val()+'"selected>'+$(this).val()+'<option>');
+	  		 	for(i=4;i<=5;i++)
+	  				$("#reg-pat-"+i+" option[value='"+$(this).val()+"']").remove();
+	  			cange[1] = 1;
+	  		}
+
+  		});
+
+  		 $("#reg-pat-4").change(function(){
+  		 	if(cange[2] == 0 && $('#reg-pat-4 option').size() > 2){
+  		 		$("#reg-pat-5").removeAttr('disabled');
+  		 		$(this).html('<option value="'+$(this).val()+'"selected>'+$(this).val()+'<option>');
+  		 		$("#reg-pat-5 option[value='"+$(this).val()+"']").remove();	
+  		 		cange[2] = 1;
+  		 	}
+  		});
+  	});
+  </script>
+
   <div class="offset1">
   	<!--form class="form-horizontal"-->
   		<?php echo form_open('',array('class'=>'form-horizontal'));?>
   		  <fieldset class="well span10">
 	  		<div class="control-group span5 alpha">
-	    		<label class="control-label" for="registro-patronal-2">Registro Patronal 2</label>
+	    		<label class="control-label" for="reg-pat-2">Registro Patronal 2</label>
 	    		<div class="controls">
-	      			<select id="registro-patronal-2" name="registro-patronal-2" class="span2">
+	      			<select id="reg-pat-2" name="reg-pat[]" class="span2">
 	      				<option></option>
-	      				<option></option>
-	      				<option></option>
+	      				<?php 
+	      				foreach ($patrones as $value) {
+	      				 	echo '<option value="'.$value->REG_PAT.'">'.$value->REG_PAT.'</option>';
+	      				 } ?>
 	      			</select>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span5">
-	    		<label class="control-label" for="registro-patronal-3">Registro Patronal 3</label>
+	    		<label class="control-label" for="reg-pat-3">Registro Patronal 3</label>
 	    		<div class="controls">
-	      			<select id="registro-patronal-3" name="registro-patronal-3" class="span2">
+	      			<select id="reg-pat-3" name="reg-pat[]" class="span2" disabled>
 	      				<option></option>
-	      				<option></option>
-	      				<option></option>
+	      				<?php 
+	      				foreach ($patrones as $value) {
+	      				 	echo '<option value="'.$value->REG_PAT.'">'.$value->REG_PAT.'</option>';
+	      				 } ?>
 	      			</select>
 	    		</div>
 	  		</div>
 		<div class="clear"></div>
 	  		<div class="control-group span5 alpha">
-	    		<label class="control-label" for="registro-patronal-4">Registro Patronal 4</label>
+	    		<label class="control-label" for="reg-pat-4">Registro Patronal 4</label>
 	    		<div class="controls">
-	      			<select id="registro-patronal-4" name="registro-patronal-4" class="span2">
+	      			<select id="reg-pat-4" name="reg-pat[]" class="span2" disabled>
 	      				<option></option>
-	      				<option></option>
-	      				<option></option>
+	      				<?php 
+	      				foreach ($patrones as $value) {
+	      				 	echo '<option value="'.$value->REG_PAT.'">'.$value->REG_PAT.'</option>';
+	      				 } ?>
 	      			</select>
 	    		</div>
 	  		</div>
@@ -37,10 +78,12 @@
 	  		<div class="control-group span5">
 	    		<label class="control-label" for="registro-patronal-5">Registro Patronal 5</label>
 	    		<div class="controls">
-	      			<select id="registro-patronal-5" name="registro-patronal-5" class="span2">
+	      			<select id="reg-pat-5" name="reg-pat-5" class="span2" disabled>
 	      				<option></option>
-	      				<option></option>
-	      				<option></option>
+	      				<?php 
+	      				foreach ($patrones as $value) {
+	      				 	echo '<option value="'.$value->REG_PAT.'">'.$value->REG_PAT.'</option>';
+	      				 } ?>
 	      			</select>
 	    		</div>
 	  		</div>
@@ -48,55 +91,55 @@
 	  		<div class="control-group">
 	    		<label class="control-label" for="nombre">Nombre o Razon Social</label>
 	    		<div class="controls">
-	      			<input type="text" id="" name="" class="span7" value="">
+	      			<input type="text" id="nombre" name="nombre" class="span7" value="<?= empty($_POST['nombre']) ? $patron->NOM_PAT : $_POST['nombre'];?>" disabled>
 	    		</div>
 	  		</div>
 	  		 <div class="control-group">
 	    		<label class="control-label" for="domicilio">Domicilio</label>
 	    		<div class="controls">
-	      			<input type="text" id="domicilio" name="domicilio" class="span7" value="">
+	      			<input type="text" id="domicilio" name="domicilio" class="span7" value="<?= empty($_POST['domicilio']) ? $patron->DOM_PAT : $_POST['domicilio'] ;?>" disabled>
 	    		</div>
 	  		</div>
 		   	<div class="control-group span5 alpha">
 	    		<label class="control-label" for="localidad">Localidad</label>
 	    		<div class="controls">
-	      			<input type="text" id="localidad" name="localidad" class="span4" value="">
+	      			<input type="text" id="localidad" name="localidad" class="span4" value="<?= empty($_POST['localidad']) ? $patron->MUN_PAT : $_POST['localidad'] ;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span5 ">
 	    		<label class="control-label" for="telefono">Telefono</label>
 	    		<div class="controls">
-	      			<input type="text" id="telefono" name="telefono" value="" class="span2">
+	      			<input type="text" id="telefono" name="telefono" class="span2" value="<?= empty($_POST['telefono']) ? $patron->TEL_PAT : $_POST['telefono'] ;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group alpha">
 	    		<label class="control-label" for="actividad-economica">Actividad Economica</label>
 	    		<div class="controls">
-	      			<input type="text" id="actividad-economica" name="actividad-economica" class="span7">
+	      			<input type="text" id="actividad-economica" name="actividad-economica" class="span7" value="<?= empty($_POST['actividad-economica']) ? $patron->ACT_PAT : $_POST['actividad-economica'] ;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group alpha">
 	    		<label class="control-label" for="representante-legal">Nombre del Patron o Representante Legal</label>
 	    		<div class="controls">
-	      			<input type="text" id="representante-legal" name="representante-legal" class="span7">
+	      			<input type="text" id="representante-legal" name="representante-legal" class="span7" value="<?= empty($_POST['representante-legal']) ? $patron->Pat_Rep : $_POST['representante-legal'] ;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span2 alpha">
 	    		<label class="control-label" for="clase">Clase</label>
 	    		<div class="controls">
-	      			<input type="text" id="clase" name="clase" class="span1" value="">
+	      			<input type="text" id="clase" name="clase" class="span1" value="<?= empty($_POST['representante-legal']) ? $patron->Clase : $_POST['representante-legal'] ;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span3">
 	    		<label class="control-label" for="fraccion">Fracción</label>
 	    		<div class="controls">
-	      			<input type="text" id="fraccion" name="fraccion" class="span1" value="">
+	      			<input type="text" id="fraccion" name="fraccion" class="span1" value="<?= empty($_POST['representante-legal']) ? $patron->Fraccion : $_POST['representante-legal'] ;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span5">
 	    		<label class="control-label" for="prima-anterior">Prima Anterior</label>
 	    		<div class="controls">
-	      			<input type="text" id="prima-anterior" name="prima-anterior" class="span2">
+	      			<input type="text" id="prima-anterior" name="prima-anterior" class="span2" value="<?= empty($_POST['representante-legal']) ? $patron->Pat_Rep : $_POST['representante-legal'] ;?>" disabled>
 	    		</div>
 	  		</div>
 
@@ -107,55 +150,55 @@
 	    		<label class="control-label label-large" for="total-casos-rt">Total de casos R.T.</label>
 	    		<div class="controls">
 	      			<input type="text" id="" name="" class="input-xmini" disabled>
-	      			<input type="text" id="total-casos-rt" name="total-casos-rt" class="input-small" value="">
+	      			<input type="text" id="total-casos-rt" name="total-casos-rt" class="input-small" value="" disabled>
 	    		</div>
 
 	    		<label class="control-label label-large" for="total-casos-dias">Total de Dias Subsidiados</label>
 	    		<div class="controls">
 	      			<input type="text" id="" name="" class="input-xmini" value="S" disabled>	    	
-	      			<input type="text" id="total-casos-dias" name="total-casos-dias" class="input-small" value="">
+	      			<input type="text" id="total-casos-dias" name="total-casos-dias" class="input-small" value="" disabled>
 	    		</div>
 
 	    		<label class="control-label label-large" for="suma-porc">Suma Porc. de Incap. /100</label>
 	    		<div class="controls">
 	    			<input type="text" id="" name="" class="input-xmini" value="I" disabled>
-	      			<input type="text" id="suma-porc" name="suma-porc" class="input-small" value="">
+	      			<input type="text" id="suma-porc" name="suma-porc" class="input-small" value="" disabled>
 	    		</div>
 
 	    		<label class="control-label label-large" for="defunciones">N° Defunciones</label>
 	    		<div class="controls">
 	    			<input type="text" id="" name="" class="input-xmini" value="D" disabled>
-	      			<input type="text" id="defunciones" name="defunciones" class="input-small" value="">
+	      			<input type="text" id="defunciones" name="defunciones" class="input-small" value="" disabled>
 	    		</div>
 
 	    		<label class="control-label label-large" for="trab-prom-rgo">N° de Trab. Prom. Exp. Rgo.</label>
 	    		<div class="controls">
 	    			<input type="text" id="" name="" class="input-xmini" value="N" disabled>
-	      			<input type="text" id="trab-prom-rgo" name="trab-prom-rgo" class="input-small" value="">
+	      			<input type="text" id="trab-prom-rgo" name="trab-prom-rgo" class="input-small" value="" disabled>
 	    		</div>
 				<br/>	
 	    		<label class="control-label label-large" for="dias-naturales">Dias Naturales del Año</label>
 	    		<div class="controls">
 	    			<input type="text" id="" name="" class="input-xmini" value="" disabled>
-	      			<input type="text" id="dias-naturales" name="dias-naturales" class="input-small" value="">
+	      			<input type="text" id="dias-naturales" name="dias-naturales" class="input-small" value="" disabled>
 	    		</div>
 
 	    		<label class="control-label label-large" for="promedio-vida">Promedio de Vida Activa</label>
 	    		<div class="controls">
 	    			<input type="text" id="" name="" class="input-xmini" value="V" disabled>
-	      			<input type="text" id="promedio-vida" name="promedio-vida" class="input-small" value="">
+	      			<input type="text" id="promedio-vida" name="promedio-vida" class="input-small" value="" disabled>
 	    		</div>
 
 	    		<label class="control-label label-large" for="factor-prima">Factor de Prima</label>
 	    		<div class="controls">
 	    			<input type="text" id="" name="" class="input-xmini" value="F" disabled>
-	      			<input type="text" id="factor-prima" name="factor-prima" class="input-small" value="">
+	      			<input type="text" id="factor-prima" name="factor-prima" class="input-small" value="" disabled>
 	    		</div>
 
 	    		<label class="control-label label-large" for="prima-minima">Prima Minima de Riesgos</label>
 	    		<div class="controls">
 	    			<input type="text" id="" name="" class="input-xmini" value="M" disabled>
-	      			<input type="text" id="prima-minima" name="prima-minima" class="input-small" value="">
+	      			<input type="text" id="prima-minima" name="prima-minima" class="input-small" value="" disabled>
 	    		</div>
 	    		<br>
 	  		</div>
@@ -175,18 +218,18 @@
 	  		<div class="control-group span4 well">
 	    		<label class="control-label label-large" for="acreditacion-st-ps">Acreditación de la ST y PS</label>
 	    		<div class="controls">
-	      			<input type="text" id="acreditacion-st-ps" name="acreditacion-st-ps" class="span1" value="No">
+	      			<input type="text" id="acreditacion-st-ps" name="acreditacion-st-ps" class="span1" value="No" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span4 well">
 	    		<label class="control-label" for="prima-resultante">Prima Resultante</label>
 	    		<div class="controls">
-	      			<input type="text" id="prima-resultante" name="prima-resultante" class="input-small" value="">
+	      			<input type="text" id="prima-resultante" name="prima-resultante" class="input-small" value="" disabled>
 	    		</div>
 	  		<br/>
 	    		<label class="control-label" for="prima-nueva"><b>Prima Nueva</b></label>
 	    		<div class="controls">
-	      			<input type="text" id="prima-nueva" name="prima-nueva" class="input-small" value="">
+	      			<input type="text" id="prima-nueva" name="prima-nueva" class="input-small" value="" disabled>
 	    		</div>
 	  		</div>
 

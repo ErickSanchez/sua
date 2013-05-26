@@ -2,9 +2,9 @@
 
 class Prima extends CI_Controller {
 
-	public function __construct() {
+	public function __construct(){
 		parent::__construct();
-		//$this->load->model('prima_model');
+		$this->load->model('prima_model');
 	}
 
 	public function index()
@@ -34,9 +34,24 @@ class Prima extends CI_Controller {
 	public function calculo_prima()
 	{
 		$this->_check_session();
-		
 
-			$data['content'] = $this->load->view('prima/calculo_prima','',true);
+			$patron = 'B4734780108';
+		if(!empty($_POST)){
+			echo "<pre>";
+			//print_r($this->prima_model->get_afiliados($patron));	
+			echo "</pre>";
+			$calculos = array();
+			$data['calculos'] = $calculos;
+		}
+		else
+			if($patron){
+				$patron = $this->prima_model->get_patron($patron);
+				$content_data['patron'] = $patron[0];
+			}
+
+		$content_data['patrones'] = $this->prima_model->get_patrones($this->session->userdata('id'),'REG_PAT');
+
+			$data['content'] = $this->load->view('prima/calculo_prima',$content_data,true);
 			$data['prima'] = TRUE;
 			$data['styles'] = array('prima','bootstrap.min');
 			$data['scripts'] = array('bootstrap.min');
@@ -62,5 +77,13 @@ class Prima extends CI_Controller {
 				return TRUE;
 		
 		$this->redirect('login','refresh');
+	}
+
+	private function _prima_rt($patron = 0){
+		
+		if($patron){			
+			return array('prima'=>'','dias'=>'');
+		}
+		return null;
 	}
 }

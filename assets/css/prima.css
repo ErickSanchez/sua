@@ -8,6 +8,10 @@
 .alpha {
 	margin-left:0px !important;
 }
+input[disabled],
+select[disabled]{
+  background-color: #eee 	;
+}
 /*****Calculo prima****/
 
 /*Reportes*/

@@ -22,7 +22,13 @@ class Prima extends CI_Controller {
 	public function calculo_dias()
 	{
 		$this->_check_session();
-
+		
+		$patron = 'B4734780108';
+		if(!empty($patron)){
+			$patron = $this->prima_model->get_patron($patron);
+			$content_data['patron'] = $patron[0];
+			$data['title'] = $patron[0]->REG_PAT.' :: '.$patron[0]->NOM_PAT;
+		}
 			$data['content'] = $this->load->view('prima/calculo_dias','',true);
 			$data['prima'] = TRUE;
 			$data['styles'] = array('prima','bootstrap.min');
@@ -35,21 +41,19 @@ class Prima extends CI_Controller {
 	{
 		$this->_check_session();
 
-			$patron = 'B4734780108';
+		$patron = 'B4734780108';
 		if(!empty($_POST)){
-			echo "<pre>";
-			//print_r($this->prima_model->get_afiliados($patron));	
-			echo "</pre>";
 			$calculos = array();
 			$data['calculos'] = $calculos;
 		}
-		else
-			if($patron){
+		
+		if(!empty($patron)){
 				$patron = $this->prima_model->get_patron($patron);
 				$content_data['patron'] = $patron[0];
+				$data['title'] = $patron[0]->REG_PAT.' :: '.$patron[0]->NOM_PAT;
 			}
 
-		$content_data['patrones'] = $this->prima_model->get_patrones($this->session->userdata('id'),'REG_PAT');
+			$content_data['patrones'] = $this->prima_model->get_patrones($this->session->userdata('id'),'REG_PAT');
 
 			$data['content'] = $this->load->view('prima/calculo_prima',$content_data,true);
 			$data['prima'] = TRUE;
@@ -62,7 +66,13 @@ class Prima extends CI_Controller {
 	public function reportes()
 	{
 		$this->_check_session();
-		
+		$patron = 'B4734780108';
+
+		if(!empty($patron)){
+			$patron = $this->prima_model->get_patron($patron);
+			$content_data['patron'] = $patron[0];
+			$data['title'] = $patron[0]->REG_PAT.' :: '.$patron[0]->NOM_PAT;
+		}
 			$data['content'] = $this->load->view('prima/reportes','',true);
 			$data['prima'] = TRUE;
 			$data['styles'] = array('prima','bootstrap.min');

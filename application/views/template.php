@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>SUA</title>
+		<title>SUA <?= isset($title) ? ' :: '.$title : '';?></title>
 		<link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/smoothness/jquery-ui-1.10.3.custom.min.css">		
 		<link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/template.css">
 

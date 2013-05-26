@@ -81,7 +81,7 @@
 	      			<select id="reg-pat-5" name="reg-pat-5" class="span2" disabled>
 	      				<option></option>
 	      				<?php 
-	      				foreach ($patrones as $value) {
+	      				foreach 	($patrones as $value) {
 	      				 	echo '<option value="'.$value->REG_PAT.'">'.$value->REG_PAT.'</option>';
 	      				 } ?>
 	      			</select>
@@ -91,55 +91,62 @@
 	  		<div class="control-group">
 	    		<label class="control-label" for="nombre">Nombre o Razon Social</label>
 	    		<div class="controls">
-	      			<input type="text" id="nombre" name="nombre" class="span7" value="<?= empty($_POST['nombre']) ? $patron->NOM_PAT : $_POST['nombre'];?>" disabled>
+	      			<input type="text" id="nombre" name="nombre" class="span7" 
+	      			value="<?= empty($patron->NOM_PAT) ?  :$patron->NOM_PAT ;?>" disabled>
 	    		</div>
 	  		</div>
 	  		 <div class="control-group">
 	    		<label class="control-label" for="domicilio">Domicilio</label>
 	    		<div class="controls">
-	      			<input type="text" id="domicilio" name="domicilio" class="span7" value="<?= empty($_POST['domicilio']) ? $patron->DOM_PAT : $_POST['domicilio'] ;?>" disabled>
+	      			<input type="text" id="domicilio" name="domicilio" class="span7" 
+	      			value="<?= empty($patron->DOM_PAT) ? :$patron->DOM_PAT ;?>" disabled>
 	    		</div>
 	  		</div>
 		   	<div class="control-group span5 alpha">
 	    		<label class="control-label" for="localidad">Localidad</label>
 	    		<div class="controls">
-	      			<input type="text" id="localidad" name="localidad" class="span4" value="<?= empty($_POST['localidad']) ? $patron->MUN_PAT : $_POST['localidad'] ;?>" disabled>
+	      			<input type="text" id="localidad" name="localidad" class="span4" 
+	      			value="<?= empty($patron->MUN_PAT) ? :$patron->MUN_PAT ;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span5 ">
 	    		<label class="control-label" for="telefono">Telefono</label>
 	    		<div class="controls">
-	      			<input type="text" id="telefono" name="telefono" class="span2" value="<?= empty($_POST['telefono']) ? $patron->TEL_PAT : $_POST['telefono'] ;?>" disabled>
+	      			<input type="text" id="telefono" name="telefono" class="span2" 
+	      			value="<?= empty($patron->TEL_PAT) ? :	$patron->TEL_PAT ;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group alpha">
 	    		<label class="control-label" for="actividad-economica">Actividad Economica</label>
 	    		<div class="controls">
-	      			<input type="text" id="actividad-economica" name="actividad-economica" class="span7" value="<?= empty($_POST['actividad-economica']) ? $patron->ACT_PAT : $_POST['actividad-economica'] ;?>" disabled>
+	      			<input type="text" id="actividad-economica" name="actividad-economica" class="span7" value="<?= empty($patron->ACT_PAT) ?  : $patron->ACT_PAT ;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group alpha">
 	    		<label class="control-label" for="representante-legal">Nombre del Patron o Representante Legal</label>
 	    		<div class="controls">
-	      			<input type="text" id="representante-legal" name="representante-legal" class="span7" value="<?= empty($_POST['representante-legal']) ? $patron->Pat_Rep : $_POST['representante-legal'] ;?>" disabled>
+	      			<input type="text" id="representante-legal" name="representante-legal" class="span7" value="<?= empty($patron->Pat_Rep) ?  : $patron->Pat_Rep;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span2 alpha">
 	    		<label class="control-label" for="clase">Clase</label>
 	    		<div class="controls">
-	      			<input type="text" id="clase" name="clase" class="span1" value="<?= empty($_POST['representante-legal']) ? $patron->Clase : $_POST['representante-legal'] ;?>" disabled>
+	      			<input type="text" id="clase" name="clase" class="span1" 
+	      			value="<?= empty($patron->Clase) ? : $patron->Clase;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span3">
 	    		<label class="control-label" for="fraccion">Fracción</label>
 	    		<div class="controls">
-	      			<input type="text" id="fraccion" name="fraccion" class="span1" value="<?= empty($_POST['representante-legal']) ? $patron->Fraccion : $_POST['representante-legal'] ;?>" disabled>
+	      			<input type="text" id="fraccion" name="fraccion" class="span1" 
+	      			value="<?= empty($patron->Fraccion) ?  : $patron->Fraccion ;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span5">
 	    		<label class="control-label" for="prima-anterior">Prima Anterior</label>
 	    		<div class="controls">
-	      			<input type="text" id="prima-anterior" name="prima-anterior" class="span2" value="<?= empty($_POST['representante-legal']) ? $patron->Pat_Rep : $_POST['representante-legal'] ;?>" disabled>
+	      			<input type="text" id="prima-anterior" name="prima-anterior" class="span2" 
+	      			value="<?= empty($patron->Pat_Rep) ? : $patron->Pat_Rep;?>" disabled>
 	    		</div>
 	  		</div>
 
@@ -218,7 +225,8 @@
 	  		<div class="control-group span4 well">
 	    		<label class="control-label label-large" for="acreditacion-st-ps">Acreditación de la ST y PS</label>
 	    		<div class="controls">
-	      			<input type="text" id="acreditacion-st-ps" name="acreditacion-st-ps" class="span1" value="No" disabled>
+	      			<input type="text" id="st-ps" name="st-ps" class="span1" 
+	      			value="<?= empty($patron->STyPS) ? $patron->STyPS: '';?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span4 well">

@@ -127,7 +127,7 @@
 	  	</fieldset>	  		
     	<fieldset class="well span10">  		  	
 	    		<button class="btn span2 offset1">Generar</button>    			
-	    		<button class="btn span2 offset2">Salir</button>
+	    		<a href="<?= site_url()?>" class="btn span2 offset2" >Salir</a>
     	</fieldset>
 	</form>
   </div>

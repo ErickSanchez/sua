@@ -31,8 +31,8 @@
   		 	}
   		});
   	});
-  </script>
-
+  </script>	
+</script>
   <div class="offset1">
   	<!--form class="form-horizontal"-->
   		<?php echo form_open('',array('class'=>'form-horizontal'));?>
@@ -92,61 +92,61 @@
 	    		<label class="control-label" for="nombre">Nombre o Razon Social</label>
 	    		<div class="controls">
 	      			<input type="text" id="nombre" name="nombre" class="span7" 
-	      			value="<?= empty($patron->NOM_PAT) ?  :$patron->NOM_PAT ;?>" disabled>
+	      			value="<?= empty($patron->NOM_PAT) ?  '':$patron->NOM_PAT ;?>" disabled>
 	    		</div>
 	  		</div>
 	  		 <div class="control-group">
 	    		<label class="control-label" for="domicilio">Domicilio</label>
 	    		<div class="controls">
 	      			<input type="text" id="domicilio" name="domicilio" class="span7" 
-	      			value="<?= empty($patron->DOM_PAT) ? :$patron->DOM_PAT ;?>" disabled>
+	      			value="<?= empty($patron->DOM_PAT) ? '':$patron->DOM_PAT ;?>" disabled>
 	    		</div>
 	  		</div>
 		   	<div class="control-group span5 alpha">
 	    		<label class="control-label" for="localidad">Localidad</label>
 	    		<div class="controls">
 	      			<input type="text" id="localidad" name="localidad" class="span4" 
-	      			value="<?= empty($patron->MUN_PAT) ? :$patron->MUN_PAT ;?>" disabled>
+	      			value="<?= empty($patron->MUN_PAT) ? '':$patron->MUN_PAT ;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span5 ">
 	    		<label class="control-label" for="telefono">Telefono</label>
 	    		<div class="controls">
 	      			<input type="text" id="telefono" name="telefono" class="span2" 
-	      			value="<?= empty($patron->TEL_PAT) ? :	$patron->TEL_PAT ;?>" disabled>
+	      			value="<?= empty($patron->TEL_PAT) ? '':	$patron->TEL_PAT ;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group alpha">
 	    		<label class="control-label" for="actividad-economica">Actividad Economica</label>
 	    		<div class="controls">
-	      			<input type="text" id="actividad-economica" name="actividad-economica" class="span7" value="<?= empty($patron->ACT_PAT) ?  : $patron->ACT_PAT ;?>" disabled>
+	      			<input type="text" id="actividad-economica" name="actividad-economica" class="span7" value="<?= empty($patron->ACT_PAT) ?  '': $patron->ACT_PAT ;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group alpha">
 	    		<label class="control-label" for="representante-legal">Nombre del Patron o Representante Legal</label>
 	    		<div class="controls">
-	      			<input type="text" id="representante-legal" name="representante-legal" class="span7" value="<?= empty($patron->Pat_Rep) ?  : $patron->Pat_Rep;?>" disabled>
+	      			<input type="text" id="representante-legal" name="representante-legal" class="span7" value="<?= empty($patron->Pat_Rep) ?  '': $patron->Pat_Rep;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span2 alpha">
 	    		<label class="control-label" for="clase">Clase</label>
 	    		<div class="controls">
 	      			<input type="text" id="clase" name="clase" class="span1" 
-	      			value="<?= empty($patron->Clase) ? : $patron->Clase;?>" disabled>
+	      			value="<?= empty($patron->Clase) ? '': $patron->Clase;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span3">
 	    		<label class="control-label" for="fraccion">Fracción</label>
 	    		<div class="controls">
 	      			<input type="text" id="fraccion" name="fraccion" class="span1" 
-	      			value="<?= empty($patron->Fraccion) ?  : $patron->Fraccion ;?>" disabled>
+	      			value="<?= empty($patron->Fraccion) ?  '': $patron->Fraccion ;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span5">
 	    		<label class="control-label" for="prima-anterior">Prima Anterior</label>
 	    		<div class="controls">
 	      			<input type="text" id="prima-anterior" name="prima-anterior" class="span2" 
-	      			value="<?= empty($patron->Pat_Rep) ? : $patron->Pat_Rep;?>" disabled>
+	      			value="<?= empty($patron->Pat_Rep) ? '': $patron->Pat_Rep;?>" disabled>
 	    		</div>
 	  		</div>
 
@@ -157,55 +157,57 @@
 	    		<label class="control-label label-large" for="total-casos-rt">Total de casos R.T.</label>
 	    		<div class="controls">
 	      			<input type="text" id="" name="" class="input-xmini" disabled>
-	      			<input type="text" id="total-casos-rt" name="total-casos-rt" class="input-small" value="" disabled>
+	      			<input type="text" id="total-casos-rt" name="total-casos-rt" class="input-small" 
+	      			value="<?= empty($N) ? 0: $N;?>" disabled>
 	    		</div>
 
 	    		<label class="control-label label-large" for="total-casos-dias">Total de Dias Subsidiados</label>
 	    		<div class="controls">
 	      			<input type="text" id="" name="" class="input-xmini" value="S" disabled>	    	
-	      			<input type="text" id="total-casos-dias" name="total-casos-dias" class="input-small" value="" disabled>
+	      			<input type="text" id="total-casos-dias" name="total-casos-dias" class="input-small" value="<?= empty($S) ? 0: $S;?>" disabled>
 	    		</div>
 
 	    		<label class="control-label label-large" for="suma-porc">Suma Porc. de Incap. /100</label>
 	    		<div class="controls">
 	    			<input type="text" id="" name="" class="input-xmini" value="I" disabled>
-	      			<input type="text" id="suma-porc" name="suma-porc" class="input-small" value="" disabled>
+	      			<input type="text" id="suma-porc" name="suma-porc" class="input-small" value="<?= empty($I) ? 0: ($I/100) ;?>" disabled>
 	    		</div>
 
 	    		<label class="control-label label-large" for="defunciones">N° Defunciones</label>
 	    		<div class="controls">
 	    			<input type="text" id="" name="" class="input-xmini" value="D" disabled>
-	      			<input type="text" id="defunciones" name="defunciones" class="input-small" value="" disabled>
+	      			<input type="text" id="defunciones" name="defunciones" class="input-small" 
+	      			value="<?= empty($D) ? 0 : $D ;?>" disabled>
 	    		</div>
 
 	    		<label class="control-label label-large" for="trab-prom-rgo">N° de Trab. Prom. Exp. Rgo.</label>
 	    		<div class="controls">
 	    			<input type="text" id="" name="" class="input-xmini" value="N" disabled>
-	      			<input type="text" id="trab-prom-rgo" name="trab-prom-rgo" class="input-small" value="" disabled>
+	      			<input type="text" id="trab-prom-rgo" name="trab-prom-rgo" class="input-small" value="<?= empty($N) ? 0: $N;?>" disabled>
 	    		</div>
 				<br/>	
 	    		<label class="control-label label-large" for="dias-naturales">Dias Naturales del Año</label>
 	    		<div class="controls">
 	    			<input type="text" id="" name="" class="input-xmini" value="" disabled>
-	      			<input type="text" id="dias-naturales" name="dias-naturales" class="input-small" value="" disabled>
+	      			<input type="text" id="dias-naturales" name="dias-naturales" class="input-small" value="<?= empty($S) ? 0: '365';?>" disabled>
 	    		</div>
 
 	    		<label class="control-label label-large" for="promedio-vida">Promedio de Vida Activa</label>
 	    		<div class="controls">
 	    			<input type="text" id="" name="" class="input-xmini" value="V" disabled>
-	      			<input type="text" id="promedio-vida" name="promedio-vida" class="input-small" value="" disabled>
+	      			<input type="text" id="promedio-vida" name="promedio-vida" class="input-small" value="<?= empty($V) ? 0: $V;?>" disabled>
 	    		</div>
 
 	    		<label class="control-label label-large" for="factor-prima">Factor de Prima</label>
 	    		<div class="controls">
 	    			<input type="text" id="" name="" class="input-xmini" value="F" disabled>
-	      			<input type="text" id="factor-prima" name="factor-prima" class="input-small" value="" disabled>
+	      			<input type="text" id="factor-prima" name="factor-prima" class="input-small" value="<?= empty($F) ? 0: $F;?>" disabled>
 	    		</div>
 
 	    		<label class="control-label label-large" for="prima-minima">Prima Minima de Riesgos</label>
 	    		<div class="controls">
 	    			<input type="text" id="" name="" class="input-xmini" value="M" disabled>
-	      			<input type="text" id="prima-minima" name="prima-minima" class="input-small" value="" disabled>
+	      			<input type="text" id="prima-minima" name="prima-minima" class="input-small" value="<?= empty($M) ? 0: $M;?>" disabled>
 	    		</div>
 	    		<br>
 	  		</div>
@@ -226,7 +228,7 @@
 	    		<label class="control-label label-large" for="acreditacion-st-ps">Acreditación de la ST y PS</label>
 	    		<div class="controls">
 	      			<input type="text" id="st-ps" name="st-ps" class="span1" 
-	      			value="<?= empty($patron->STyPS) ? $patron->STyPS: '';?>" disabled>
+	      			value="<?= empty($patron->STyPS) ? 'No': $patron->STyPS;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span4 well">
@@ -245,15 +247,10 @@
     	<fieldset class="well span10">  		  	
 	    		<button type="submit" class="btn span2">Calcular</button>    			
 	    		<a href="#" class="btn span3 offset1">Generar Archivo</a>
-	    		<a href="#" class="btn span2 offset1">Salir</a>
+	    		<a href="<?= site_url()?>" id="salir" class="btn span2 offset1">Salir</a>
     	</fieldset>
 	</form>
-
-
-
   </div>
-
-
  
 <!-- Modal -->
 <div id="art32" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="art" aria-hidden="true">

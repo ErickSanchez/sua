@@ -49,13 +49,13 @@
 	<body>
 		<div id="header">
 			<h3>SUA Sistema Unico de Autodetermiación</h3>
-			<a href="<?=site_url()?>login/logout/" id="logout_button">Salir</a>
+			<a href="<?=site_url('login/logout')?>" id="logout_button">Salir</a>
 		</div>
 		<div id="menu">
-			<ul class="navigation">
+			<ul class="navigationn alpha">
 				<li class="menu_option"><span></span>Actualizar</li>
 				<li class="submenu">
-					<ul>
+					<ul class="alpha">
 						<li class="menu_suboption">Patrones</li>
 						<li class="menu_suboption">Trabajadores</li>
 						<li class="menu_suboption">Salarios Minimos</li>
@@ -63,20 +63,20 @@
 					</ul>
 				</li>
 			</ul>
-			<ul class="navigation">
+			<ul class="navigation alpha">
 				<li class="menu_option">Afiliación</li>
 				<li class="submenu">
-					<ul>
+					<ul class="alpha">
 						<li class="menu_suboption">Generar Movimientos</li>
 						<li class="menu_suboption">Recepción de Movimiento</li>
 						<li class="menu_suboption">Reporte del Estado</li>
 					</ul>
 				</li>
 			</ul>
-			<ul  class="navigation">
-				<li class="menu_option <?php if(!empty($prima)) echo 'button-active';?>">Determinación Prima RT</li>
-				<li class="submenu" <?php if(!empty($prima)) echo 'style="display:list-item;"';?>>
-					<ul id="prima">
+			<ul  class="navigation alpha">
+				<li class="menu_option <?= !empty($prima) ? 'button-active' : '';?>">Determinación Prima RT</li>
+				<li class="submenu" <?= !empty($prima) ? 'style="display:list-item;"' : '';?>>
+					<ul id="prima" class="alpha">
 						<li class="menu_suboption" rel="prima/calculo_dias">
 							Cálculo de Dias
 						</li>
@@ -89,29 +89,29 @@
 					</ul>
 				</li>
 			</ul>
-			<ul class="navigation">
+			<ul class="navigation alpha">
 				<li class="menu_option">Aportaciones</li>
 				<li class="submenu">
-					<ul>
+					<ul class="alpha">
 						<li class="menu_suboption">Voluntarias</li>
 						<li class="menu_suboption">Complementarias</li>
 					</ul>
 				</li>
 			</ul>
-			<ul class="navigation">
+			<ul class="navigation alpha">
 				<li class="menu_option">Cálculos</li>
 				<li class="submenu">
-					<ul>
+					<ul class="alpha">
 						<li class="menu_suboption">Pago Oportuno</li>
 						<li class="menu_suboption">Pago Extemporáneo</li>
 						<li class="menu_suboption">Pago de Diferencias</li>
 					</ul>
 				</li>
 			</ul>
-			<ul class="navigation">
+			<ul class="navigation alpha">
 				<li class="menu_option">Reportes</li>
 				<li class="submenu">
-					<ul>
+					<ul class="alpha">
 						<li class="menu_suboption">Análisis de la Información</li>
 					</ul>
 				</li>

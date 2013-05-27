@@ -1,3 +1,11 @@
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#salir").click(function(){
+		location.href="<?= base_url()?>";
+	});
+});
+	
+</script>
 <div class="offset1">
   	<?php echo form_open('',array('class'=>'form-horizontal'));?>
   		  <fieldset class="well span10">	  	
@@ -107,7 +115,7 @@
 	  	</fieldset>  		  		  		
     	<fieldset class="well span10">  		  	
 	    		<button class="btn span2 offset1">Calcular</button>    			
-	    		<button class="btn span2 offset4">Salir</button>
+	    		<button id="salir" type="button" class="btn span2 offset4">Salir</button>
     	</fieldset>
 	</form>
   </div>

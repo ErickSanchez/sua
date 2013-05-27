@@ -31,6 +31,7 @@ class Login extends CI_Controller {
 	            $data2['id'] = $Data['id'];
 	            $data2['nombre'] = $Data['nombre'];
 	            $data2['email'] = $Data['email'];
+	            $data2['patron'] = 'B4734780108';
 	            $data2['loggedIn'] = true;
 	            $this->session->set_userdata($data2);
 	            $array['content'] = $this->load->view('login/dashboard','',true);

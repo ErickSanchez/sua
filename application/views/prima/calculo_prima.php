@@ -38,7 +38,6 @@
   		});
   	});
   </script>	
-</script>
   <div class="offset1">
   	<!--form class="form-horizontal"-->
   		<?php echo form_open('',array('class'=>'form-horizontal'));?>

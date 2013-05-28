@@ -8,6 +8,22 @@ class Prima extends CI_Controller {
 	}
 
 	public function index(){
+
+	}
+	public function seleccionar(){
+		
+
+		$data['title'] = "Selecciona un Patron";		
+		$D['patrones'] = $this->prima_model->get_patrones($this->session->userdata('id'),'','REG_PAT, NOM_PAT');
+		$data['content'] = $this->load->view('prima/seleccionar',$D,TRUE);
+		$data['styles'] = array('prima','bootstrap.min');
+		$data['scripts'] = array('bootstrap.min');
+		if(!empty($_POST['patron'])){
+			$patron['patron'] = $_POST['patron'];
+	        $this->session->set_userdata($patron);
+	        redirect('prima/calculo_dias','refresh');
+		}
+	    $this->load->view('template',$data);		
 	}
 
 	public function calculo_dias(){
@@ -282,9 +298,19 @@ class Prima extends CI_Controller {
 			echo "</pre>";
 			exit();
 	}
-	private function _get_patron(){
+	private function _get_reg_pat(){
 
 		 $patron = $this->session->userdata('patron');
+		if(!empty($patron)){
+			return $patron ;
+		}
+		else
+			redirect('prima/seleccionar','refresh');
+	}
+
+	private function _get_patron(){
+
+		 $patron = $this->_get_reg_pat();
 		if(!empty($patron)){
 			$patron = $this->prima_model->get_patron($patron);
 			if($patron){
@@ -293,6 +319,7 @@ class Prima extends CI_Controller {
 		}
 		redirect('','refresh');
 	}
+
 	private function _check_session(){		
 		if($this->session->userdata('loggedIn'))
 				return TRUE;

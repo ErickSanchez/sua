@@ -1,6 +1,11 @@
   <script type="text/javascript">
   var cange = [0,0,0];
+  var msg = "<?=empty($msg) ? '': $msg;?>";
   	$(document).ready(function(){
+  		if(msg != ''){
+  			alert(msg);
+  			location.href = "<?=site_url()?>";
+  		}
   		$("#reg-pat-2").change(function(){
   			if(cange[0] == 0 && $('#reg-pat-4 option').size() > 2){
   				$("#reg-pat-3").removeAttr('disabled');
@@ -183,7 +188,7 @@
 	    		<label class="control-label label-large" for="trab-prom-rgo">N° de Trab. Prom. Exp. Rgo.</label>
 	    		<div class="controls">
 	    			<input type="text" id="" name="" class="input-xmini" value="N" disabled>
-	      			<input type="text" id="trab-prom-rgo" name="trab-prom-rgo" class="input-small" value="<?= empty($TP_RT) ? 0: $TP_RT['N'];?>" disabled>
+	      			<input type="text" id="trab-prom-rgo" name="trab-prom-rgo" class="input-small" value="<?= empty($N) ? 0: $N;?>" disabled>
 	    		</div>
 				<br/>	
 	    		<label class="control-label label-large" for="dias-naturales">Dias Naturales del Año</label>

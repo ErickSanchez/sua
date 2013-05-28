@@ -1,4 +1,5 @@
 <script type="text/javascript">
+  var cange = [0,0,0];
 	$(document).ready(function(){
 
 	      $( "#from" ).datepicker({
@@ -27,6 +28,52 @@
 				case '4': $(".relacion-no").hide(); $(".relacion").show(); break;
 				case '5': $(".incapacidad-no").hide(); $(".incapacidad").show(); break;
 				default:
+			}
+		});
+		//////////////////////
+		$("#reg-pat-2").change(function(){
+  			if(cange[0] == 0 && $('#reg-pat-4 option').size() > 2){
+  				$("#reg-pat-3").removeAttr('disabled');
+  				$(this).html('<option value="'+$(this).val()+'"selected>'+$(this).val()+'<option>');
+  				for(i=3;i<=5;i++)
+  					$("#reg-pat-"+i+" option[value='"+$(this).val()+"']").remove();
+  				cange[0] = 1;
+  			}
+  		});
+
+  		 $("#reg-pat-3").change(function(){
+  		 	if(cange[1] == 0 && $('#reg-pat-4 option').size() > 2){
+	  		 	$("#reg-pat-4").removeAttr('disabled');
+	  		 	$(this).html('<option value="'+$(this).val()+'"selected>'+$(this).val()+'<option>');
+	  		 	for(i=4;i<=5;i++)
+	  				$("#reg-pat-"+i+" option[value='"+$(this).val()+"']").remove();
+	  			cange[1] = 1;
+	  		}
+
+  		});
+
+  		 $("#reg-pat-4").change(function(){
+  		 	if(cange[2] == 0 && $('#reg-pat-4 option').size() > 2){
+  		 		$("#reg-pat-5").removeAttr('disabled');
+  		 		$(this).html('<option value="'+$(this).val()+'"selected>'+$(this).val()+'<option>');
+  		 		$("#reg-pat-5 option[value='"+$(this).val()+"']").remove();	
+  		 		cange[2] = 1;
+  		 	}
+  		});
+		/////////////////////
+
+		$("#send").click(function(e){
+			
+			var val = $('#tipo-reporte').val();
+			if(val == 2 || val == 5){
+				if($("#from").val() == "" || $("#to").val() == ""){
+					e.preventDefault();
+					if($("#from").val() == "")
+						$("#from").focus();
+					else
+						if($("#to").val() == "")
+							$("#to").focus();
+				}					
 			}
 		});
 	});
@@ -60,23 +107,23 @@
 	      			</select>
 	    		</div>
 	  		</div>	  			
-	  		<div class="control-group span4 reporte incapacidad trabajador-no relacion-no alpha">
+	  		<div class="control-group span5 reporte incapacidad trabajador-no relacion-no alpha">
 	    		<label class="control-label" for="inicio">Fecha Inicial</label>
 	    		<div class="controls">
 					<input type="text" id="from" name="inicio" class="span2 datepicker" placeholder="DD/MM/AA">
 	    		</div>
 	  		</div>
 
-	  		<div class="control-group span4 reporte incapacidad trabajador-no relacion-no alpha">
+	  		<div class="control-group span5 reporte incapacidad trabajador-no relacion-no alpha">
 	    		<label class="control-label" for="fin">Fecha Final</label>
 	    		<div class="controls">
 					<input type="text" id="to" name="fin" class="span2 datepicker" placeholder="DD/MM/AA">
 	    		</div>
 	  		</div>
-	  		<div class="control-group span4 incapacidad trabajador-no  relacion-no reporte-no alpha">
+	  		<div class="control-group span5 incapacidad trabajador-no  relacion-no reporte-no alpha">
 	    		<label class="control-label" for="ramo">Ramo de Seguro</label>
 	    		<div class="controls">
-	      			<select id="ramo" name="ramo" class="span2">
+	      			<select id="ramo" name="ramo" class="span3">
 	      				<option value="1">Todos</option>
 	      				<option value="2">1 Riesgos de Tabjo</option>
 	      				<option value="3">2 Enfermedad General</option>
@@ -85,10 +132,10 @@
 	    		</div>
 	  		</div>	  			
 	  		<!--                                 -->	  
-	  		<div class="control-group span4 relacion trabajador-no reporte-no  incapacidad-no alpha">
-	    		<label class="control-label" for="registro-patronal-2">Registro Patronal 2</label>
+	  		<div class="control-group span5 relacion trabajador-no reporte-no  incapacidad-no alpha">
+	    		<label class="control-label" for="reg-pat-2">Registro Patronal 2</label>
 	    		<div class="controls">
-	      			<select id="registro-patronal-2" name="reg_pats[]" class="span2">
+	      			<select id="reg-pat-2" name="reg_pats[]" class="span2">
 	      				<option></option>
 	      				<?php 
 	      				foreach ($patrones as $value) {
@@ -98,9 +145,9 @@
 	    		</div>
 	  		</div>
 	  		<div class="control-group span4 relacion trabajador-no reporte-no  incapacidad-no alpha">
-	    		<label class="control-label" for="registro-patronal-3">Registro Patronal 3</label>
+	    		<label class="control-label" for="reg-pat-3">Registro Patronal 3</label>
 	    		<div class="controls">
-	      			<select id="registro-patronal-3" name="reg_pats[]" class="span2">
+	      			<select id="reg-pat-3" name="reg_pats[]" class="span2" disabled>
 	      				<option></option>
 	      				<?php 
 	      				foreach ($patrones as $value) {
@@ -110,10 +157,10 @@
 	    		</div>
 	  		</div>
 		<div class="clear"></div>
-	  		<div class="control-group span4 relacion trabajador-no reporte-no  incapacidad-no alpha">
-	    		<label class="control-label" for="registro-patronal-4">Registro Patronal 4</label>
+	  		<div class="control-group span5 relacion trabajador-no reporte-no  incapacidad-no alpha">
+	    		<label class="control-label" for="reg-pat-4">Registro Patronal 4</label>
 	    		<div class="controls">
-	      			<select id="registro-patronal-4" name="reg_pats[]" class="span2">
+	      			<select id="reg-pat-4" name="reg_pats[]" class="span2" disabled>
 	      				<option></option>
 	      				<?php 
 	      				foreach ($patrones as $value) {
@@ -124,9 +171,9 @@
 	  		</div>
 
 	  		<div class="control-group span4 relacion trabajador-no reporte-no incapacidad-no alpha">
-	    		<label class="control-label" for="registro-patronal-5">Registro Patronal 5</label>
+	    		<label class="control-label" for="reg-pat-5">Registro Patronal 5</label>
 	    		<div class="controls">
-	      			<select id="registro-patronal-5" name="reg_pats[]" class="span2">
+	      			<select id="reg-pat-5" name="reg_pats[]" class="span2" disabled>
 	      				<option></option>
 	      				<?php 
 	      				foreach ($patrones as $value) {
@@ -140,7 +187,7 @@
 	  	<fieldset class="well span10 info">
 	  	</fieldset>	  		
     	<fieldset class="well span10">  		  	
-	    		<button class="btn span2 offset1">Generar</button>    			
+	    		<button type="submit" id="send" class="btn span2 offset1">Generar</button>    			
 	    		<a href="<?= site_url()?>" class="btn span2 offset2" >Salir</a>
     	</fieldset>
 	</form>

@@ -6,6 +6,7 @@
   			alert(msg);
   			location.href = "<?=site_url()?>";
   		}
+  		
   		$("#reg-pat-2").change(function(){
   			if(cange[0] == 0 && $('#reg-pat-4 option').size() > 2){
   				$("#reg-pat-3").removeAttr('disabled');

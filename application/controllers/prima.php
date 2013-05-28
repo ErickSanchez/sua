@@ -173,7 +173,7 @@ class Prima extends CI_Controller {
 			
 			
 			$D['anio'] = $anio;
-			$D['patrones'] = $this->prima_model->get_patrones($this->session->userdata('id'),'REG_PAT');
+			$D['patrones'] = $this->prima_model->get_patrones($this->session->userdata('id'),$reg_pat,'REG_PAT');
 
 			$data['content'] = $this->load->view('prima/calculo_prima',$D,true);
 			$data['prima'] = TRUE;
@@ -225,7 +225,7 @@ class Prima extends CI_Controller {
 		
 		$D['patron']	= $patron;
 		$D['anio']	= $anio;
-		$D['patrones'] = $this->prima_model->get_patrones($this->session->userdata('id'),'REG_PAT');
+		$D['patrones'] = $this->prima_model->get_patrones($this->session->userdata('id'),$reg_pat,'REG_PAT');
 
 		$data['content'] = $this->load->view('prima/reportes',$D,true);
 		$data['prima'] = TRUE;
@@ -237,21 +237,52 @@ class Prima extends CI_Controller {
 
 	private function _RPT_TrabajadoresExpuestosRT($reg_pat = '',$anio = ''){
 
+		echo $reg_pat."<br>";
+		echo $anio;
+			echo "<pre>";
+			print_r($_POST);
+			echo "</pre>";
+			exit();
 	}
 	
 	private function _RPT_RiesgosdeTarabajo($reg_pat = '',$inicio = '',$fin = ''){
 
+		echo $reg_pat."<br>";
+		echo $inicio.': '.$fin;
+			echo "<pre>";
+			print_r($_POST);
+			echo "</pre>";
+			exit();
 	}
 	
 	private function _RPT_CaratulaDeterminacion($reg_pat = '',$anio = ''){
 
+		echo $reg_pat."<br>";
+		echo $anio;
+			echo "<pre>";
+			print_r($_POST);
+			echo "</pre>";
+			exit();
 	}
 
-	private function _RPT_CasosRT($reg_pat = array(),$anio = ''){
+	private function _RPT_CasosRT($reg_pats = array(),$anio = ''){
 
+			echo $anio;
+			echo "<pre>";
+			print_r($reg_pats);
+			print_r($_POST);
+			echo "</pre>";
+			exit();
 	}
 	private function _RPT_Incapacidades($reg_pat = '',$inicio = '',$fin = '',$ramo = 0){
 
+		echo $reg_pat."<br>";
+		echo $inicio.': '.$fin.'<br>';
+		echo $ramo;
+			echo "<pre>";
+			print_r($_POST);
+			echo "</pre>";
+			exit();
 	}
 	private function _get_patron(){
 

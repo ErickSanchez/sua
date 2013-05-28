@@ -18,15 +18,30 @@ class Prima extends CI_Controller {
 		$data['title'] = $patron->REG_PAT.' :: '.$patron->NOM_PAT;
 		$content_data['patron']	= $patron;
 
-	$calculos = array();		
-	
-	if(!empty($_POST['anio'])){
-	$Total = 0;
+
+		if(!empty($_POST['anio'])){
+			$anio = $_POST['anio'];
+			$calculos = $this->_casos_rt($this->session->userdata('patron'),$anio);
+		}
+		else
+			$anio = date('Y')-1;
+
+		$calculos['anio'] = $anio;
+		$data['content'] = $this->load->view('prima/calculo_dias',$calculos,true);
+		$data['prima'] = TRUE;
+		$data['styles'] = array('prima','bootstrap.min');
+		$data['scripts'] = array('bootstrap.min');
+	    $this->load->view('template',$data);
+		
+	}
+
+	private function _casos_rt($reg_pat = '', $anio = ''){
+
+		$Total = 0;
 	//Indice 0 = Total	1,2,3...Meses
 	$Meses =array(0,0,0,0,0,0,0,0,0,0,0,0,0,0);	
-		$anio = $_POST['anio'];
-		$Afiliado = $this->prima_model->get_dias_cotizables($this->session->userdata('patron'),$anio);
-		$Dias_Sub = $this->prima_model->get_dias_sub($this->session->userdata('patron'),$anio,true);
+		$Afiliado = $this->prima_model->get_dias_cotizables($reg_pat,$anio);
+		$Dias_Sub = $this->prima_model->get_dias_sub($reg_pat,$anio,true);
 		foreach ($Afiliado as  $dias) {
 				$Dias  = 0;
 					
@@ -239,9 +254,9 @@ class Prima extends CI_Controller {
 					 	   $Total += 1;
 						}
 				}
-
+			$dias_subsidiados = 0;
 				foreach ($Dias_Sub as $value) {
-						$Meses[0] += $value->Dia_Sub;
+						$dias_subsidiados += $value->Dia_Sub;
 
 						if($value->Dia_Sub){
 							$d   =   ($value->DA + $value->Dia_Sub-1);
@@ -256,22 +271,10 @@ class Prima extends CI_Controller {
 						}
 				}
 			
-			if($Total == 0){
-							
-			}
-			$calculos = array('Meses'=>$Meses,'Total'=>$Total);
-	}
-	else
-		$anio = date('Y')-1;
+			if($Total != 0)
+				return array('Meses'=>$Meses,'Total'=>$Total,'Dias_Subcidiados'=>$dias_subsidiados);
 
-
-		$calculos['anio'] = $anio;
-		$data['content'] = $this->load->view('prima/calculo_dias',$calculos,true);
-		$data['prima'] = TRUE;
-		$data['styles'] = array('prima','bootstrap.min');
-		$data['scripts'] = array('bootstrap.min');
-	    $this->load->view('template',$data);
-		
+			return array();
 	}
 
 	public function calculo_prima(){

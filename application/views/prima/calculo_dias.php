@@ -84,13 +84,13 @@ $(document).ready(function(){
 
 	    		<label class="control-label" for="total">Total = </label>
 	    		<div class="controls">
-	      			<input type="text" id="total" name="total" class="span2" value="<?=empty($Meses) ? '': $Total-$Meses[0];?>" disabled>
+	      			<input type="text" id="total" name="total" class="span2" value="<?=empty($Meses) ? '': $Total - $Dias_Subcidiados;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span5 alpha">
 	    		<label class="control-label" for="dias-cotizados">Total de Dias Cotizados</label>
 	    		<div class="controls">
-					<input type="text" id="dias-cotizados" name="dias-cotizados" class="span2" value="<?=empty($Meses) ? '': $Total-$Meses[0];?>" disabled>
+					<input type="text" id="dias-cotizados" name="dias-cotizados" class="span2" value="<?=empty($Meses) ? '': $Total - $Dias_Subcidiados;?>" disabled>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span5 alpha">

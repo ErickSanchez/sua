@@ -1,6 +1,23 @@
 <script type="text/javascript">
 	$(document).ready(function(){
-		
+
+	      $( "#from" ).datepicker({
+	      		defaultDate: "+1w",
+	      		changeMonth: true,
+	      		numberOfMonths: 1,
+	      		onClose: function( selectedDate ) {
+	        $( "#to" ).datepicker( "option", "minDate", selectedDate );
+	      }
+	    });
+	    $( "#to" ).datepicker({
+	      defaultDate: "+1w",
+	      changeMonth: true,
+	      numberOfMonths: 1,
+	      onClose: function( selectedDate ) {
+	        $( "#from" ).datepicker( "option", "maxDate", selectedDate );
+	      }
+	    });
+			
 		$(".trabajador-no").hide();
 		$("#tipo-reporte").change(function(){			
 			switch($(this).val()){
@@ -46,14 +63,14 @@
 	  		<div class="control-group span4 reporte incapacidad trabajador-no relacion-no alpha">
 	    		<label class="control-label" for="inicio">Fecha Inicial</label>
 	    		<div class="controls">
-					<input type="date" id="inicio" name="inicio" class="span2">
+					<input type="text" id="from" name="inicio" class="span2 datepicker" placeholder="DD/MM/AA">
 	    		</div>
 	  		</div>
 
 	  		<div class="control-group span4 reporte incapacidad trabajador-no relacion-no alpha">
 	    		<label class="control-label" for="fin">Fecha Final</label>
 	    		<div class="controls">
-					<input type="date" id="fin" name="fin" class="span2">
+					<input type="text" id="to" name="fin" class="span2 datepicker" placeholder="DD/MM/AA">
 	    		</div>
 	  		</div>
 	  		<div class="control-group span4 incapacidad trabajador-no  relacion-no reporte-no alpha">

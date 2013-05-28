@@ -146,7 +146,7 @@
 	    		<label class="control-label" for="prima-anterior">Prima Anterior</label>
 	    		<div class="controls">
 	      			<input type="text" id="prima-anterior" name="prima-anterior" class="span2" 
-	      			value="<?= empty($patron->Pat_Rep) ? '': $patron->Pat_Rep;?>" disabled>
+	      			value="<?= empty($RT) ? '': $RT;?>" disabled>
 	    		</div>
 	  		</div>
 

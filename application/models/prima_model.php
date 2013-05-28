@@ -15,18 +15,31 @@ class Prima_model extends CI_Model {
 		return $this->db->select('*')->from('afiliacion')->where('REG_PATR',$reg_pat)->get()->result();
 	}
 
-	public function get_dias_sub($reg_pat = '',$fields = '*'){
-		//select('sum(Dia_Sub)')->from('incapacidades')->where('Reg_Pat',$reg_pat)->get()->result();
-		$S = $this->db->query("SELECT SUM(Dia_Sub) AS S FROM incapacidades WHERE Reg_Pat='$reg_pat'");
+	public function get_dias_sub($reg_pat = '',$anio = '2012',$field = false){
 
-		if($S->num_rows){
-			$S = $S->result();
-			return $S[0]->S;
-		}
+		if($field)
+			$fields = " MONTH(Fec_Acc) AS MA,DAY(Fec_Acc)AS DA,DAY(LAST_DAY(Fec_Acc))AS DF,Dia_Sub ";
+		else
+			$fields = " SUM(Dia_Sub) AS S ";
+		//select('sum(Dia_Sub)')->from('incapacidades')->where('Reg_Pat',$reg_pat)->get()->result();
+		$S = $this->db->query("SELECT ".$fields." FROM incapacidades WHERE Reg_Pat='$reg_pat' AND YEAR(Fec_Acc)='$anio' AND Fec_Ter < NOW()");
+
+		if($field)
+			return $S->result();
+		else
+			if($S->num_rows){
+				$S = $S->result();
+				return $S[0]->S;
+			}
 		return 0;
 
 	}
-
+ public  function get_dias_cotizables($reg_pat = '', $anio = '2012'){
+ 	return $this->db->query("SELECT NUM_AFIL,YEAR(FEC_ALT) AS A,DAY(FEC_ALT) AS D , MONTH(FEC_ALT) AS M,DAY(LAST_DAY('$anio-2-21'))AS DF, DATEDIFF('".$anio."-1-31',`FEC_ALT`)  AS Enero, DATEDIFF(LAST_DAY('".$anio."-2-1'),`FEC_ALT`)  AS Febrero,	DATEDIFF('".$anio."-3-31',`FEC_ALT`)  AS Marzo, 
+ 											DATEDIFF('".$anio."-4-30',`FEC_ALT`)  AS Abril,	DATEDIFF('".$anio."-5-31',`FEC_ALT`)  AS Mayo, DATEDIFF('".$anio."-6-30 23:59:59',`FEC_ALT`)  AS Junio, DATEDIFF('".$anio."-7-31',`FEC_ALT`)  AS Julio,
+ 											DATEDIFF('".$anio."-8-31',`FEC_ALT`)  AS Agosto, DATEDIFF('".$anio."-9-30',`FEC_ALT`)  AS Septiembre,	DATEDIFF('".$anio."-10-31',`FEC_ALT`) AS Octubre, DATEDIFF('".$anio."-11-30',`FEC_ALT`) AS Noviembre,
+ 											DATEDIFF('".$anio."-12-31',`FEC_ALT`) AS Diciembre	FROM asegura WHERE `REG_PATR`='$reg_pat'")->result();
+ }
 	public function get_porcentajes($reg_pat = ''){
 		//select('sum(Por_Inc)')->from('incapacidades')->where('Reg_Pat',$reg_pat)->get()->result();
 		$I = $this->db->query("SELECT SUM(Por_Inc) AS I FROM incapacidades WHERE Reg_Pat='$reg_pat'");
@@ -64,6 +77,15 @@ class Prima_model extends CI_Model {
 		if($M->num_rows){
 			$M = $M->result();
 			return $M[0]->M;
+		}
+		return 0;
+	}
+
+	public function get_prima_rt($reg_pat = ''){
+		$RT = $this->db->query("SELECT Ano,ValMes,Prima_Rt AS RT FROM prima_rt AS prt WHERE Reg_Pat= '$reg_pat' AND ValMes = (SELECT ValMes FROM prima_rt WHERE Ano = prt.Ano ORDER BY ValMes DESC LIMIT 1)  ORDER BY Ano DESC LIMIT 1");
+		if($RT->num_rows){
+			$RT = $RT->result();
+			return $RT[0]->RT;
 		}
 		return 0;
 	}

@@ -146,7 +146,7 @@
 	    		<label class="control-label" for="prima-anterior">Prima Anterior</label>
 	    		<div class="controls">
 	      			<input type="text" id="prima-anterior" name="prima-anterior" class="span2" 
-	      			value="<?= empty($RT) ? '': $RT;?>" disabled>
+	      			value="<?= isset($Prima_Anterior) ? $Prima_Anterior: '';?>" disabled>
 	    		</div>
 	  		</div>
 
@@ -158,7 +158,7 @@
 	    		<div class="controls">
 	      			<input type="text" id="" name="" class="input-xmini" disabled>
 	      			<input type="text" id="total-casos-rt" name="total-casos-rt" class="input-small" 
-	      			value="<?= empty($N) ? 0: $N;?>" disabled>
+	      			value="<?= empty($Casos_RT) ? 0: $Casos_RT;?>" disabled>
 	    		</div>
 
 	    		<label class="control-label label-large" for="total-casos-dias">Total de Dias Subsidiados</label>
@@ -170,7 +170,7 @@
 	    		<label class="control-label label-large" for="suma-porc">Suma Porc. de Incap. /100</label>
 	    		<div class="controls">
 	    			<input type="text" id="" name="" class="input-xmini" value="I" disabled>
-	      			<input type="text" id="suma-porc" name="suma-porc" class="input-small" value="<?= empty($I) ? 0: ($I/100) ;?>" disabled>
+	      			<input type="text" id="suma-porc" name="suma-porc" class="input-small" value="<?= empty($I) ? 0: $I ;?>" disabled>
 	    		</div>
 
 	    		<label class="control-label label-large" for="defunciones">N° Defunciones</label>
@@ -183,13 +183,13 @@
 	    		<label class="control-label label-large" for="trab-prom-rgo">N° de Trab. Prom. Exp. Rgo.</label>
 	    		<div class="controls">
 	    			<input type="text" id="" name="" class="input-xmini" value="N" disabled>
-	      			<input type="text" id="trab-prom-rgo" name="trab-prom-rgo" class="input-small" value="<?= empty($N) ? 0: $N;?>" disabled>
+	      			<input type="text" id="trab-prom-rgo" name="trab-prom-rgo" class="input-small" value="<?= empty($TP_RT) ? 0: $TP_RT['N'];?>" disabled>
 	    		</div>
 				<br/>	
 	    		<label class="control-label label-large" for="dias-naturales">Dias Naturales del Año</label>
 	    		<div class="controls">
 	    			<input type="text" id="" name="" class="input-xmini" value="" disabled>
-	      			<input type="text" id="dias-naturales" name="dias-naturales" class="input-small" value="<?= empty($S) ? 0: '365';?>" disabled>
+	      			<input type="text" id="dias-naturales" name="dias-naturales" class="input-small" value="<?= empty($DN) ? 0: $DN;?>" disabled>
 	    		</div>
 
 	    		<label class="control-label label-large" for="promedio-vida">Promedio de Vida Activa</label>
@@ -215,10 +215,13 @@
 	<div class="control-group span4 well">
 	    		<label class="control-label" for="periodo-computo">Periodo de Computo</label>
 	    		<div class="controls">
-	      			<select class="input-small" id="periodo-computo" name="periodo-computo">
-	      				<option>2013</option>
-	      				<option>2012</option>
-	      				<option>2011</option>
+	      			<select class="input-small" id="anio" name="anio">
+							<?php for ($i=1997; $i < date('Y')+2; $i++) { 
+	      					if($anio == $i)
+	      						echo '<option selected>'.$i.'</option>';
+	      					else
+	      						echo '<option>'.$i.'</option>';
+	      				}?>
 	      			</select>
 	    		</div>
 	  		<br/>
@@ -234,12 +237,12 @@
 	  		<div class="control-group span4 well">
 	    		<label class="control-label" for="prima-resultante">Prima Resultante</label>
 	    		<div class="controls">
-	      			<input type="text" id="prima-resultante" name="prima-resultante" class="input-small" value="" disabled>
+	      			<input type="text" id="prima-resultante" name="prima-resultante" class="input-small" value="<?= isset($Prima_Resultante) ? $Prima_Resultante: '';?>" disabled>
 	    		</div>
 	  		<br/>
 	    		<label class="control-label" for="prima-nueva"><b>Prima Nueva</b></label>
 	    		<div class="controls">
-	      			<input type="text" id="prima-nueva" name="prima-nueva" class="input-small" value="" disabled>
+	      			<input type="text" id="prima-nueva" name="prima-nueva" class="input-small" value="<?= isset($Prima_Nueva) ? number_format($Prima_Nueva,4): '';?>" disabled>
 	    		</div>
 	  		</div>
 

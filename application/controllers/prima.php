@@ -272,8 +272,7 @@ class Prima extends CI_Controller {
 				}
 			
 			if($Total != 0)
-				return array('Meses'=>$Meses,'Total'=>$Total,'Dias_Subcidiados'=>$dias_subsidiados);
-
+				return array('Meses'=>$Meses,'Total'=>$Total,'Dias_Subcidiados'=>$dias_subsidiados,'N'=> $this->_Decimal((($Total-$dias_subsidiados)/365),1));
 			return array();
 	}
 
@@ -286,22 +285,49 @@ class Prima extends CI_Controller {
 		}
 		
 		$anio = '2012';
+		$reg_pat = $this->session->userdata('patron');
+			
 			$patron = $this->_get_patron();	
 			$data['title'] = $patron->REG_PAT.' :: '.$patron->NOM_PAT;
-			$content_data['patron']	= $patron;
+			$D['Prima_Anterior']  = $this->_Decimal($this->prima_model->get_prima_rt($reg_pat),4);
+			$D['patron']	= $patron;
 
-			$content_data['S']   = $this->prima_model->get_dias_sub($this->session->userdata('patron'),$anio);
-			$content_data['V'] 	 = 28;
-			$content_data['I']   = $this->prima_model->get_porcentajes($this->session->userdata('patron'));
-			$content_data['D']   = $this->prima_model->get_defunciones($this->session->userdata('patron'));
-			$content_data['F'] 	 = $this->prima_model->get_factor_prima();
-			$content_data['M'] 	 = $this->prima_model->get_prima_minima();
-			$content_data['N'] 	 = $this->prima_model->get_trabajadores($this->session->userdata('patron'));
-			$content_data['RT']  = $this->prima_model->get_prima_rt($this->session->userdata('patron'));
+		if(!empty($_POST['anio'])){
+
+			$D['V'] 	 = 28;
+			$D['M'] 	 = $this->prima_model->get_prima_minima()/100;
+			$D['DN'] 	 = 365; 
+			$D['S']   = $this->prima_model->get_dias_sub($reg_pat,$anio);
 			
-			$content_data['patrones'] = $this->prima_model->get_patrones($this->session->userdata('id'),'REG_PAT');
+			$D['I']   = $this->prima_model->get_porcentajes($reg_pat)/100;
+			$D['D']   = $this->prima_model->get_defunciones($reg_pat);
+			$D['F'] 	 = $this->prima_model->get_factor_prima();
+			
+			$D['Casos_RT']  = $this->prima_model->get_trabajadores($reg_pat);
+			$D['TP_RT']   = $calculos = $this->_casos_rt($reg_pat,$anio);			
 
-			$data['content'] = $this->load->view('prima/calculo_prima',$content_data,true);
+			$D['Prima_Resultante'] =  $this->_Decimal((( ($D['S']/$D['DN']) + $D['V'] * ($D['I'] + $D['D']) ) * ($D['F']/$D['TP_RT']['N']) + $D['M'])*100,5);
+			$Limite_Superior = $D['Prima_Anterior']+1;
+			$Limite_Inferior = $D['Prima_Anterior']+1;
+
+			if($Limite_Superior < $D['Prima_Resultante'])
+				$D['Prima_Nueva'] = $Limite_Superior;
+			elseif($Limite_Inferior > $D['Prima_Resultante'])
+				$D['Prima_Nueva'] = $Limite_Inferior;
+			else
+				$D['Prima_Nueva'] = $D['Prima_Resultante'];
+
+
+
+
+		}
+		else
+			$anio = date('Y')-1;
+			
+			$D['anio'] = $anio;
+			$D['patrones'] = $this->prima_model->get_patrones($this->session->userdata('id'),'REG_PAT');
+
+			$data['content'] = $this->load->view('prima/calculo_prima',$D,true);
 			$data['prima'] = TRUE;
 			$data['styles'] = array('prima','bootstrap.min');
 			$data['scripts'] = array('bootstrap.min');
@@ -340,11 +366,10 @@ class Prima extends CI_Controller {
 		redirect('login','refresh');
 	}
 
-	private function _prima_rt($patron = 0){
-		
-		if($patron){			
-			return array('prima'=>'','dias'=>'');
-		}
-		return null;
+	private function _Decimal($numero,$digitos){	
+	    $raiz = 10;
+	    $multiplicador = pow ($raiz,$digitos);
+	    $resultado = ((int)($numero * $multiplicador)) / $multiplicador;
+	    return number_format($resultado, $digitos);
 	}
 }

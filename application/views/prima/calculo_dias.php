@@ -102,7 +102,7 @@ $(document).ready(function(){
 	  		<div class="control-group span5 alpha">
 	  			<label class="control-label" for="trabajadores-rt">Trabajadores Promedio Expuestos a Riesgos</label>
 	  			<div class="controls">  <!-- substr(($Total-$Meses[0])/365,0,3) -->
-	  				<input type="text" id="trabajadores-rt" name="trabajadores-rt" class="span2" value="<?= empty($Meses)? '': number_format(($Total-$Meses[0])/365,4) ;?>" disabled>
+	  				<input type="text" id="trabajadores-rt" name="trabajadores-rt" class="span2" value="<?= empty($Meses)? '': $N ;?>" disabled>
 	  			</div>
 	  		</div>
 	  	</fieldset>  		  		  		

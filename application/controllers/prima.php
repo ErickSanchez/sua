@@ -237,12 +237,10 @@ class Prima extends CI_Controller {
 
 	private function _RPT_TrabajadoresExpuestosRT($reg_pat = '',$anio = ''){
 
-		echo $reg_pat."<br>";
-		echo $anio;
-			echo "<pre>";
-			print_r($_POST);
-			echo "</pre>";
-			exit();
+			$this->fpdf->AddPage();
+			$this->fpdf->SetFont('Arial','B',16);
+			$this->fpdf->Cell(40,10,'¡Hola, Mundo!');
+			$this->fpdf->Output();
 	}
 	
 	private function _RPT_RiesgosdeTarabajo($reg_pat = '',$inicio = '',$fin = ''){

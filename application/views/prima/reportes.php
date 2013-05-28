@@ -63,24 +63,33 @@
 		/////////////////////
 
 		$("#send").click(function(e){
-			
+			e.preventDefault();		
 			var val = $('#tipo-reporte').val();
 			if(val == 2 || val == 5){
 				if($("#from").val() == "" || $("#to").val() == ""){
-					e.preventDefault();
+
 					if($("#from").val() == "")
 						$("#from").focus();
 					else
 						if($("#to").val() == "")
 							$("#to").focus();
-				}					
+					
+					return false;
+				}
+				
 			}
+			 sendForm("<?=site_url('prima/reportes/pdf')?>");
 		});
 	});
+function sendForm(url){
+ 	//window.open(url,'popup','toolbar= no,location=no,directories=no,status=no,menubar=no ,scrollbars=yes,resizable=yes,width=960,height=960');
+ 	$("#rpt-form").submit();
+
+}
 </script>
   <div class="span10 offset1">
   	<!--form class="form-horizontal"-->
-  	<?php echo form_open('',array('class'=>'form-horizontal'));?>
+  	<?php echo form_open("/prima/reportes/pdf",array('class'=>'form-horizontal','id'=>'rpt-form','target'=>'_blank'));?>
   		  <fieldset class="well span10">	  	
 	  		<div class="control-group">
 	    		<label class="control-label" for="tipo-reporte">Seleccione el Reporte</label>

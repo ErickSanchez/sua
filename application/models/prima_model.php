@@ -9,7 +9,7 @@ class Prima_model extends CI_Model {
 	public function get_patrones($id_usuario = '',$reg_pat='',$fields = '*'){
 
 		//return $this->db->select($fields)->from('patron')->where('ID_USER',$id_usuario)->get()->result();
-		return $this->db->query("SELECT $fields FROM patron WHERE ID_USER=$id_usuario AND REG_PAT!='$reg_pat'")->result();
+		return $this->db->query("SELECT $fields FROM patron WHERE ID_USER='$id_usuario' AND REG_PAT!='$reg_pat'")->result();
 	}
 
 	public function get_afiliados($reg_pat = ''){

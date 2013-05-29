@@ -11,7 +11,7 @@ class Prima extends CI_Controller {
 
 	}
 	public function seleccionar(){
-		
+		$this->_check_session();
 
 		$data['title'] = "Selecciona un Patron";		
 		$D['patrones'] = $this->prima_model->get_patrones($this->session->userdata('id'),'','REG_PAT, NOM_PAT');

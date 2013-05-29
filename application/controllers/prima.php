@@ -34,10 +34,10 @@ class Prima extends CI_Controller {
 		$data['title'] = $patron->REG_PAT.' :: '.$patron->NOM_PAT;
 		$content_data['patron']	= $patron;
 
-
+		$reg_pat = $this->session->userdata('patron');
 		if(!empty($_POST['anio'])){
 			$anio = $_POST['anio'];
-			$calculos = $this->_casos_rt($this->session->userdata('patron'),$anio);
+			$calculos = $this->_casos_rt($reg_pat,$anio);
 		}
 		else
 			$anio = date('Y')-1;
@@ -252,7 +252,9 @@ class Prima extends CI_Controller {
 	}
 
 	private function _RPT_TrabajadoresExpuestosRT($reg_pat = '',$anio = ''){
-
+			
+			$Meses = $this->_casos_rt($reg_pat,$anio);
+			$Patron = $this->_get_patron($reg_pat);			
 			$this->fpdf->AddPage();
 			$this->fpdf->SetFont('Arial','B',16);
 			$this->fpdf->Image('imss.png',10,8,33);
@@ -268,41 +270,69 @@ class Prima extends CI_Controller {
 			  $this->fpdf->SetFont('Arial','B',8);
 			 $this->fpdf->Ln(10);
 			 $this->fpdf->Cell(80);
-			  $this->fpdf->Cell(140,10,'Periodo de Computo: ');
+			  $this->fpdf->Cell(140,10,'Periodo de Computo: '.$anio);
 			  $this->fpdf->Ln(8);
 			 $this->fpdf->Cell(8);
-			  $this->fpdf->Cell(2,10,'Fecha: ');
+			  $this->fpdf->Cell(2,10,'Fecha: '.date('d/m/Y'));
 			   $this->fpdf->Cell(120);
-			  $this->fpdf->Cell(8,10,'Pagina: ');
+			  $this->fpdf->Cell(8,10,'Pagina:   1');
 			  $this->fpdf->Ln(7);
 			 $this->fpdf->Cell(8);
-			  $this->fpdf->Cell(2,10,'Registro Patronal: ');
+			  $this->fpdf->Cell(2,10,'Registro Patronal: '.$Patron->REG_PAT);
 			   $this->fpdf->Cell(80);
-			  $this->fpdf->Cell(8,10,'R.F.C. ');
+			  $this->fpdf->Cell(8,10,'R.F.C. '.$Patron->RFC_PAT);
 			  $this->fpdf->Ln(7);
 			 $this->fpdf->Cell(8);
-			  $this->fpdf->Cell(2,10,'Nombre o Razon Social: ');
+			  $this->fpdf->Cell(2,10,'Nombre o Razon Social: '.$Patron->NOM_PAT);
 			  $this->fpdf->Ln(7);
 			 $this->fpdf->Cell(40);
-			  $this->fpdf->Cell(2,10,'Mes: ');
-			   $this->fpdf->Cell(60);
-			  $this->fpdf->Cell(2,10,'Dias Cotizados: ');
-			
-			/*$header = array('País', 'Capital', 'Superficie (km2)', 'Pobl. (en miles)');
-			// Carga de datos
-			$data = $pdf->LoadData('paises.txt');
-			$pdf->SetFont('Arial','',14);
-			$pdf->AddPage();
-			$pdf->BasicTable($header,$data);
-			$pdf->AddPage();
-			$pdf->ImprovedTable($header,$data);
-			$pdf->AddPage();
-			$pdf->FancyTable($header,$data);*/
-
+			 ////Tabla
+			  $w = array(80, 40,);
+			  $meses = array(array('Enero',$Meses['Meses'][1]),
+								array('Febrero',$Meses['Meses'][2]),
+								array('Marzo',$Meses['Meses'][3]),
+								array('Abril',$Meses['Meses'][4]),
+								array('Mayo',$Meses['Meses'][5]),
+								array('Junio',$Meses['Meses'][6]),
+								array('Julio',$Meses['Meses'][7]),
+								array('Agosto',$Meses['Meses'][8]),
+								array('Septiembre',$Meses['Meses'][9]),
+								array('Octubre',$Meses['Meses'][10]),
+								array('Noviembre',$Meses['Meses'][11]),
+								array('Diciembre',$Meses['Meses'][12]),
+								array('Total Dias Cotizados                         =',$Meses['Total']),
+								array('Dividido entre 365 Dias                      =',$Meses['N'].'   =   Trabajadores Promedio'),
+								array('','               Expuestos al Riesgo')
+								);
+			 $this->fpdf->Ln(4);					
+			 $this->_Table($this->fpdf,40,array('Mes:','Dias Cotizados:'),$w,$meses,0);
+			  //$this->fpdf->Cell(10,10,'Mes: ',1);
+			  // $this->fpdf->Cell(60,1,1,1);
+			  //$this->fpdf->Cell(2,10,'Dias Cotizados: ');
 			  
 			$this->fpdf->Output();
 	}
-	
+	private function _Table($pdf,$x,$header,$width,$data,$border = 1){
+		// Cabecera
+		$i = 0;
+		$pdf->SetX($x);
+		foreach($header as $col){
+			$pdf->Cell($width[$i],6,$col,$border);
+			$i++;
+		}
+		$pdf->Ln();
+		// Datos
+		
+		foreach($data as $row){
+		$i = 0;
+		$pdf->SetX($x);
+			foreach($row as $col)
+				$pdf->Cell($width[$i],6,$col,$border);
+			$pdf->Ln();
+			$i++;
+		}
+	}
+
 	private function _RPT_RiesgosdeTarabajo($reg_pat = '',$inicio = '',$fin = ''){
 
 		/*echo $reg_pat."<br>";
@@ -412,6 +442,23 @@ class Prima extends CI_Controller {
 			print_r($_POST);
 			echo "</pre>";
 			exit();*/
+			$this->fpdf->AddPage();
+			$this->fpdf->SetFont('Arial','B',10);
+			$this->fpdf->Image('imss.png',10,8,33);
+			 $this->fpdf->Ln(10);
+			 $this->fpdf->Cell(40);
+			 $this->fpdf->Cell(100,10,'RELACION DE CASOS DE RIESGOS DE TRABAJO TERMINADOS');
+			 $this->fpdf->Ln(4);
+			 $this->fpdf->SetFont('Arial','B',7);
+			 $this->fpdf->Cell(45);
+			 $this->fpdf->Cell(120,10,'(DURANTE EL PERIODO DEL 1o. DE ENERO AL 31 DE DICIEMBRE DE 2011)');
+			 $this->fpdf->Ln(10);
+			 $this->fpdf->SetFont('Arial','B',5);
+			 $this->fpdf->Cell(8);
+			 $this->fpdf->Cell(100,10,'REGISTRO PATRONAL  D.V.');
+			 $this->fpdf->Cell(120,10,'Fecha de Proceso: ');
+			 $this->fpdf->Output();
+			
 			
 	}
 	private function _RPT_Incapacidades($reg_pat = '',$inicio = '',$fin = '',$ramo = 0){
@@ -434,16 +481,17 @@ class Prima extends CI_Controller {
 			redirect('prima/seleccionar','refresh');
 	}
 
-	private function _get_patron(){
+	private function _get_patron($reg_pat = ''){
 
-		 $patron = $this->_get_reg_pat();
-		if(!empty($patron)){
-			$patron = $this->prima_model->get_patron($patron);
+		if(empty($reg_pat))
+		 	$reg_pat = $this->_get_reg_pat();
+		if(!empty($reg_pat)){
+			$patron = $this->prima_model->get_patron($reg_pat);
 			if($patron){
 				return $patron[0];
 			}
 		}
-		redirect('','refresh');
+		return null;
 	}
 
 	private function _check_session(){		

@@ -2,14 +2,27 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>SUA</title>
-		<link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/smoothness/jquery-ui-1.10.3.custom.min.css">
+		<title>SUA <?= isset($title) ? ' :: '.$title : '';?></title>
+		<link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/smoothness/jquery-ui-1.10.3.custom.min.css">		
 		<link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/template.css">
-		<?php if(!empty($style)) 
-		echo '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/'.$style.'.css').'">';?>		
+
+		<?php if(!empty($styles)){
+			if(is_array($styles))
+				foreach ($styles as $style)
+					echo '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/'.$style.'.css').'">';		}
+		?>
+
 		<script type="text/javascript" src="<?=base_url()?>assets/js/jquery-1.9.1.js"></script>
 		<script type="text/javascript" src="<?=base_url()?>assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+
+		<?php if(!empty($scripts)){
+			if(is_array($scripts))
+				foreach ($scripts as $script)
+					echo '<script type="text/javascript" src="'.base_url('assets/js/'.$script.'.js').'"></script>';				 
+		}
+		?>
+		
+
 		<script type="text/javascript">
 			$(document).ready(function(){
 				$('.menu_option').click(function(){
@@ -36,13 +49,13 @@
 	<body>
 		<div id="header">
 			<h3>SUA Sistema Unico de Autodetermiación</h3>
-			<a href="<?=site_url()?>login/logout/" id="logout_button">Salir</a>
+			<a href="<?=site_url('login/logout')?>" id="logout_button">Salir</a>
 		</div>
 		<div id="menu">
-			<ul class="navigation">
+			<ul class="navigationn alpha">
 				<li class="menu_option"><span></span>Actualizar</li>
 				<li class="submenu">
-					<ul>
+					<ul class="alpha">
 						<li class="menu_suboption">Patrones</li>
 						<li class="menu_suboption">Trabajadores</li>
 						<li class="menu_suboption">Salarios Minimos</li>
@@ -50,20 +63,23 @@
 					</ul>
 				</li>
 			</ul>
-			<ul class="navigation">
+			<ul class="navigation alpha">
 				<li class="menu_option">Afiliación</li>
 				<li class="submenu">
-					<ul>
+					<ul class="alpha">
 						<li class="menu_suboption">Generar Movimientos</li>
 						<li class="menu_suboption">Recepción de Movimiento</li>
 						<li class="menu_suboption">Reporte del Estado</li>
 					</ul>
 				</li>
 			</ul>
-			<ul  class="navigation">
-				<li class="menu_option <?php if(!empty($prima)) echo 'button-active';?>">Determinación Prima RT</li>
-				<li class="submenu" <?php if(!empty($prima)) echo 'style="display:list-item;"';?>>
-					<ul id="prima">
+			<ul  class="navigation alpha">
+				<li class="menu_option <?= !empty($prima) ? 'button-active' : '';?>">Determinación Prima RT</li>
+				<li class="submenu" <?= !empty($prima) ? 'style="display:list-item;"' : '';?>>
+					<ul id="prima" class="alpha">
+						<li class="menu_suboption" rel="prima/seleccionar">
+							Seleccionar Patron
+						</li>
 						<li class="menu_suboption" rel="prima/calculo_dias">
 							Cálculo de Dias
 						</li>
@@ -76,29 +92,29 @@
 					</ul>
 				</li>
 			</ul>
-			<ul class="navigation">
+			<ul class="navigation alpha">
 				<li class="menu_option">Aportaciones</li>
 				<li class="submenu">
-					<ul>
+					<ul class="alpha">
 						<li class="menu_suboption">Voluntarias</li>
 						<li class="menu_suboption">Complementarias</li>
 					</ul>
 				</li>
 			</ul>
-			<ul class="navigation">
+			<ul class="navigation alpha">
 				<li class="menu_option">Cálculos</li>
 				<li class="submenu">
-					<ul>
+					<ul class="alpha">
 						<li class="menu_suboption">Pago Oportuno</li>
 						<li class="menu_suboption">Pago Extemporáneo</li>
 						<li class="menu_suboption">Pago de Diferencias</li>
 					</ul>
 				</li>
 			</ul>
-			<ul class="navigation">
+			<ul class="navigation alpha">
 				<li class="menu_option">Reportes</li>
 				<li class="submenu">
-					<ul>
+					<ul class="alpha">
 						<li class="menu_suboption">Análisis de la Información</li>
 					</ul>
 				</li>

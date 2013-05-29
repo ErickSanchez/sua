@@ -269,7 +269,7 @@ class Prima extends CI_Controller {
 			 $this->fpdf->Ln(10);
 			 $this->fpdf->Cell(80);
 			  $this->fpdf->Cell(140,10,'Periodo de Computo: ');
-			  $this->fpdf->Ln(7);
+			  $this->fpdf->Ln(8);
 			 $this->fpdf->Cell(8);
 			  $this->fpdf->Cell(2,10,'Fecha: ');
 			   $this->fpdf->Cell(120);
@@ -282,7 +282,23 @@ class Prima extends CI_Controller {
 			  $this->fpdf->Ln(7);
 			 $this->fpdf->Cell(8);
 			  $this->fpdf->Cell(2,10,'Nombre o Razon Social: ');
+			  $this->fpdf->Ln(7);
+			 $this->fpdf->Cell(40);
+			  $this->fpdf->Cell(2,10,'Mes: ');
+			   $this->fpdf->Cell(60);
+			  $this->fpdf->Cell(2,10,'Dias Cotizados: ');
 			
+			/*$header = array('País', 'Capital', 'Superficie (km2)', 'Pobl. (en miles)');
+			// Carga de datos
+			$data = $pdf->LoadData('paises.txt');
+			$pdf->SetFont('Arial','',14);
+			$pdf->AddPage();
+			$pdf->BasicTable($header,$data);
+			$pdf->AddPage();
+			$pdf->ImprovedTable($header,$data);
+			$pdf->AddPage();
+			$pdf->FancyTable($header,$data);*/
+
 			  
 			$this->fpdf->Output();
 	}
@@ -297,9 +313,45 @@ class Prima extends CI_Controller {
 			exit();*/
 			$this->fpdf->AddPage();
 			$this->fpdf->SetFont('Arial','B',16);
-			$this->fpdf->Cell(40,10,'Hola Juan');
-			$this->fpdf->Ln();
-			$this->fpdf->Cell(60,10,'Hecho con FPDF.',0,1,'C');
+			$this->fpdf->Image('imss.png',10,8,33);
+			 $this->fpdf->Cell(40);
+			 $this->fpdf->Cell(140,10,'SISTEMA UNICO DE AUTODETERMINACION');
+			 $this->fpdf->SetFont('Arial','B',10);
+			 $this->fpdf->Ln(6);
+			 $this->fpdf->Cell(60);
+			  $this->fpdf->Cell(140,10,'REPORTE DE RIESGO DE TRABAJO');
+			  $this->fpdf->SetFont('Arial','B',8);
+			 $this->fpdf->Ln(10);
+			 $this->fpdf->Cell(50);
+			  $this->fpdf->Cell(40,10,'Periodo de Proceso del: ');
+			  $this->fpdf->Cell(20);
+			  $this->fpdf->Cell(2,10,' al: ');
+			  $this->fpdf->Ln(8);
+			 $this->fpdf->Cell(8);
+			  $this->fpdf->Cell(2,10,'Fecha: ');
+			   $this->fpdf->Cell(120);
+			  $this->fpdf->Cell(8,10,'Pagina: ');
+			  $this->fpdf->Ln(7);
+			 $this->fpdf->Cell(8);
+			  $this->fpdf->Cell(2,10,'Registro Patronal: ');
+			   $this->fpdf->Cell(80);
+			  $this->fpdf->Cell(8,10,'R.F.C. ');
+			  $this->fpdf->Ln(7);
+			 $this->fpdf->Cell(8);
+			  $this->fpdf->Cell(2,10,'Nombre o Razon Social: ');
+			  
+			  $header = array('Numero de Seguro Social', 'Nombre del Asegurado', 'Fecha de Inicio', 'Tipo Rgo.', 'Con. Sec.', 'Dias Subs.', 'Porc. Incap.', 'Fecha Termino', 'Observaciones');
+			// Carga de datos
+			$data = LoadData('paises.txt');
+			$this->$fpdf->SetFont('Arial','',14);
+			$this->$fpdf->AddPage();
+			$this->$fpdf->BasicTable($header,$data);
+			$this->$fpdf->AddPage();
+			$this->$fpdf->ImprovedTable($header,$data);
+			$this->$fpdf->AddPage();
+			$this->$fpdf->FancyTable($header,$data);
+			  
+			
 			$this->fpdf->Output();
 	}
 	

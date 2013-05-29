@@ -342,7 +342,7 @@ class Prima extends CI_Controller {
 			  
 			  $header = array('Numero de Seguro Social', 'Nombre del Asegurado', 'Fecha de Inicio', 'Tipo Rgo.', 'Con. Sec.', 'Dias Subs.', 'Porc. Incap.', 'Fecha Termino', 'Observaciones');
 			// Carga de datos
-			$data = LoadData('paises.txt');
+			/*$data = LoadData('paises.txt');
 			$this->$fpdf->SetFont('Arial','',14);
 			$this->$fpdf->AddPage();
 			$this->$fpdf->BasicTable($header,$data);
@@ -351,28 +351,68 @@ class Prima extends CI_Controller {
 			$this->$fpdf->AddPage();
 			$this->$fpdf->FancyTable($header,$data);
 			  
+			  
+			$title = '20000 Leguas de Viaje Submarino';
+			$this->$fpdf->SetTitle($title);
+			$this->$fpdf->SetAuthor('Julio Verne');
+			$this->$fpdf->PrintChapter(1,'UN RIZO DE HUIDA','20k_c1.txt');
+			$this->$fpdf->PrintChapter(2,'LOS PROS Y LOS CONTRAS','20k_c2.txt');*/
+
 			
 			$this->fpdf->Output();
 	}
 	
 	private function _RPT_CaratulaDeterminacion($reg_pat = '',$anio = ''){
 
-		echo $reg_pat."<br>";
+		/*echo $reg_pat."<br>";
 		echo $anio;
 			echo "<pre>";
 			print_r($_POST);
 			echo "</pre>";
 			exit();
+			*/
+			$this->fpdf->AddPage();
+			$this->fpdf->SetFont('Arial','B',10);
+			$this->fpdf->Image('imss.png',10,8,33);
+			 $this->fpdf->Cell(40);
+			 $this->fpdf->Cell(100,10,'DETERMINACION DE LA PRIMA EN EL SEGURO DE RIESGOS DE TRABAJO');
+			 $this->fpdf->Ln(4);
+			 $this->fpdf->Cell(45);
+			 $this->fpdf->Cell(120,10,'DERIVADA DE LA REVISION ANUAL DE LA SINIESTRALIDAD');
+			 $this->fpdf->SetFont('Arial','B',5);
+			 $this->fpdf->Ln(4);
+			 $this->fpdf->Cell(35);
+			  $this->fpdf->Cell(140,10,'INSTITUTO MEXICANO DEL SEGURO SOCIAL');
+			  $this->fpdf->Ln(4);
+			 $this->fpdf->Cell(35);
+			  $this->fpdf->Cell(140,10,'EN EL CUMPLIMIENTO A LO DISPUESTO POR LOS ARTICULOS 15, FRACCION IV. 71.72 Y 74 DE LA LEY DEL SEGURO SOCIAL Y');
+			  $this->fpdf->Ln(2);
+			 $this->fpdf->Cell(35);
+			  $this->fpdf->Cell(140,10,'DECIMO NOVENO TRASITORIO DEL DECRETO POR EL QUE SE REFORMAN DIVERSAS DISPOSICIONES DE LA LEY DEL SEGURO');
+			  $this->fpdf->Ln(2);
+			 $this->fpdf->Cell(35);
+			  $this->fpdf->Cell(140,10,'SOCIAL, PUBLICADO EN EL DIARIO OFICIAL DE LA FEDERACION DEL 20 DE DICIEMBRE DE 2001 Y ARTUCULOS Y FRACCION IV.2');
+			   $this->fpdf->Ln(2);
+			 $this->fpdf->Cell(35);
+			  $this->fpdf->Cell(140,10,'FRACCION VII.3 DEL 32 AL 39, 47 Y 196 DEL REGLAMENTO DE LA LEY DEL SEGURO SOCIAL EN MATERIA DE AFILIACION');
+			   $this->fpdf->Ln(2);
+			 $this->fpdf->Cell(35);
+			  $this->fpdf->Cell(140,10,'CALIFICACION DE EMPRESAS, RECAUDACION Y FISCALIZACION, MANIFIESTO, BAJO PROTESTA DE DECIR VERDAD. QUE LOS');
+			   $this->fpdf->Ln(2);
+			 $this->fpdf->Cell(35);
+			  $this->fpdf->Cell(140,10,'DATOS ASENTADOS EN ESTE DOCUMENTO SON REA;ES RESPECTO A LA SINIESTRALIDAD OCURRIDA EN ESTA EMPRESA');
+			  $this->fpdf->Output();
 	}
 
 	private function _RPT_CasosRT($reg_pats = array(),$anio = ''){
 
-			echo $anio;
+			/*echo $anio;
 			echo "<pre>";
 			print_r($reg_pats);
 			print_r($_POST);
 			echo "</pre>";
-			exit();
+			exit();*/
+			
 	}
 	private function _RPT_Incapacidades($reg_pat = '',$inicio = '',$fin = '',$ramo = 0){
 

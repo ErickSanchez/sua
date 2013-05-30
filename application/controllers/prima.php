@@ -367,7 +367,7 @@ class Prima extends CI_Controller {
 			$this->fpdf->SetFont('Arial','B',10);
 			$this->fpdf->Ln(6);
 			$this->fpdf->Cell(60);
-			$this->fpdf->Cell(140,10,'REPORTE DE INCAPACIDADES');
+			$this->fpdf->Cell(140,10,'REPORTE DE RIESGOS DE TRABAJO');
 			$this->fpdf->SetFont('Arial','B',8);
 			$this->fpdf->Ln(10);
 			$this->fpdf->Cell(50);
@@ -402,13 +402,38 @@ class Prima extends CI_Controller {
 			$fin    = $this->_Fecha($fin);
 			
 			$trabajadores = $this->prima_model->get_Num_Afiliacion($reg_pat);
+			$riesgo_1_3    = array('casos'=>0,'dias'=>0,'porcentaje'=>0,'defunciones'=>0);
+			$riesgo_2      = array('casos'=>0,'dias'=>0,'porcentaje'=>0,'defunciones'=>0);
 			$this->fpdf->SetFont('Arial','',8);	
 			$height = array(6,6,6,6,6,6,6,6,6);
+
 			foreach ($trabajadores as $trabajador) {
 				 $data = $this->prima_model->get_datos_inc($reg_pat,$trabajador->NUM_AFIL,$inicio,$fin);
 				foreach ($data as $cols) {
-					$row =  array(array($cols->Num_Afi,$cols->Tip_Rie,$cols->Fecha,'  '.substr($cols->Tip_Rie,0,1),'  '.substr($cols->Con_Inc,0,1),'  '.$cols->Dia_Sub,$cols->Por_Inc,$cols->Por_Inc,$cols->Por_Inc)	);
+					
+					$f = strtotime($cols->fin);
+					$now = strtotime('now');
+					if($f <= $now)
+						$observaciones = 'Caso Terminado';
+					else
+						$observaciones = 'Caso Pendiente';
+					$row =  array(array($cols->Num_Afi,$trabajador->TMP_NOM,$cols->Fecha,'  '.substr($cols->Tip_Rie,0,1),'  '.substr($cols->Con_Inc,0,1),'  '.$cols->Dia_Sub,$cols->Por_Inc,$cols->Por_Inc,$observaciones)	);
 					$this->_TableMultiCell($this->fpdf,10,$width,$height,$row);
+					
+					if(substr($cols->Tip_Rie,0,1) == '1' || substr($cols->Tip_Rie,0,1) == '3'){
+						$riesgo_1_3['casos']++;	
+						$riesgo_1_3['dias']+= $cols->Dia_Sub;	
+						$riesgo_1_3['porcentaje']+= $cols->Por_Inc;
+						if(strtolower($cols->Ind_Def) == 'si')	
+							$riesgo_1_3['defunciones']++;	
+					}
+					elseif(substr($cols->Tip_Rie,0,1) == '2'){
+						$riesgo_2['casos']++;	
+						$riesgo_2['dias']+=$cols->Dia_Sub;	
+						$riesgo_2['porcentaje']+= $cols->Por_Inc;
+						if(strtolower($cols->Ind_Def) == 'si')		
+							$riesgo_2['defunciones']++;	
+					}
 				}
 			}
 
@@ -423,7 +448,9 @@ class Prima extends CI_Controller {
 			$this->fpdf->SetFont('Arial','',8);	
 			$data   = array(array("Casos", "Dias\n Subcidiados","Porcentaje Incapacidad","Defunciones","Casos", "Dias\n Subcidiados","Porcentaje Incapacidad","Defunciones"));
 			$this->_TableMultiCell($this->fpdf,15,$width,$height,$data);
-			$this->_TableMultiCell($this->fpdf,19,$width,$height,array(array(0,0,0,0,0,0,0,0)));
+			$this->_TableMultiCell($this->fpdf,19,$width,$height,array(
+				array($riesgo_1_3['casos'],
+					$riesgo_1_3['dias'],$riesgo_1_3['porcentaje'],$riesgo_1_3['defunciones'],$riesgo_2['casos'],$riesgo_2['dias'],$riesgo_2['porcentaje'],$riesgo_2['defunciones'])));
 
 
 
@@ -439,7 +466,11 @@ class Prima extends CI_Controller {
 			$this->fpdf->SetFont('Arial','',8);	
 			$data   = array(array("Casos", "Dias\n Subcidiados","Porcentaje Incapacidad","Defunciones"));
 			$this->_TableMultiCell($this->fpdf,70,$width,$height,$data);
-			$this->_TableMultiCell($this->fpdf,74,$width,$height,array(array(0,0,0,0)));
+			$this->_TableMultiCell($this->fpdf,74,$width,$height,array(
+				array($riesgo_1_3['casos']+$riesgo_2['casos'],
+					$riesgo_1_3['dias']+$riesgo_2['dias'],
+						$riesgo_1_3['porcentaje']+$riesgo_2['porcentaje'],
+						$riesgo_1_3['defunciones']+$riesgo_2['defunciones'])));
 	
 
 				

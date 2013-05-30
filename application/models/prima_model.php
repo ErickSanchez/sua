@@ -98,12 +98,12 @@ class Prima_model extends CI_Model {
 	public function get_Num_Afiliacion($reg_pat = ''){
 		return $this->db->query("SELECT NUM_AFIL,TMP_NOM FROM asegura WHERE REG_PATR = '$reg_pat'")->result();
 	}
-	public function get_datos_inc($reg_pat,$num_afi,$inicio = '',$fin = '',$ramo = ''){		
+	public function get_datos_inc($reg_pat,$num_afi,$inicio = '',$fin = '',$ramo = '1'){		
 		$ramo_sql = '';
 			if($ramo)
 				$ramo_sql = " AND Ram_Seg LIKE '%".$ramo."%' ";
 
-		return $this->db->query("SELECT Num_Afi,Ram_Seg,Tip_Rie,Secuela,Con_Inc,CONCAT(DAY(Fec_Acc),'/',MONTH(Fec_Acc),'/',YEAR(Fec_Acc)) AS Fecha,Fol_Inc,Dia_Sub,Por_Inc 
+		return $this->db->query("SELECT Num_Afi,Ram_Seg,Tip_Rie,Secuela,Con_Inc,CONCAT(DAY(Fec_Acc),'/',MONTH(Fec_Acc),'/',YEAR(Fec_Acc)) AS Fecha, Fec_Acc AS inicio,Fec_Ter AS fin ,Fol_Inc,Dia_Sub,Por_Inc,Ind_Def 
 									FROM incapacidades 	WHERE REG_PAT='$reg_pat' AND Num_Afi='$num_afi' AND Fec_Acc >= '$inicio' AND Fec_Ter <= '$fin' ".$ramo_sql)->result();
 	}
 }

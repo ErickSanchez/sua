@@ -137,42 +137,66 @@ class Prima extends CI_Controller {
 	public function calculo_prima(){
 		$this->_check_session();
 
-		if(!empty($_POST)){
-			$calculos = array();
-			$data['calculos'] = $calculos;
-		}
-		
-		
-		$reg_pat = $this->session->userdata('patron');
-			
-		if(!empty($_POST['anio']))
+		if(!empty($_POST['anio'])){
 			$anio = $_POST['anio'];
-		else
-		  $anio = date('Y')-1;
-
-			$patron = $this->_get_patron();	
-			$data['title'] = $patron->REG_PAT.' :: '.$patron->NOM_PAT;
-			$D['Prima_Anterior']  = $this->_Decimal($this->prima_model->get_prima_rt($reg_pat,$anio),4);
-			$D['patron']	= $patron;
-
-		if(!empty($_POST['anio'])){			
-			$D['V']   = 28;
-			$D['M']   = $this->prima_model->get_prima_minima()/100;
-			$D['DN']  = 365; 			
+			$reg_pats = $_POST['reg-pat'];
+		}
+		else{
+			$reg_pats = array();
+			$anio = date('Y')-1;
+		}
+		    
 			
-			$D['I']   = $this->prima_model->get_porcentajes($reg_pat,$anio)/100;
-			$D['D']   = $this->prima_model->get_defunciones($reg_pat);
+			$D = $this->_calculos_prima($reg_pats,$anio);			
+			
+			$data['content'] = $this->load->view('prima/calculo_prima',$D,true);
+			$data['prima'] = TRUE;
+			$data['styles'] = array('prima','bootstrap.min');
+			$data['scripts'] = array('bootstrap.min');
+	        $this->load->view('template',$data);
+		
+	}
+	private function _calculos_prima($reg_pats = array(),$anio = ''){
+		$reg_pat = $this->_get_reg_pat();
+			
+		$patron = $this->_get_patron();	
+		$data['title'] = $patron->REG_PAT.' :: '.$patron->NOM_PAT;
+		$Prima_Anterior  = $this->_Decimal($this->prima_model->get_prima_rt($reg_pat,$anio),4);
+
+		if(!empty($anio)){
+			$D = array('V'=>28,'DN'=>365,'M'=>0,'I'=>0,'D'=>0,'F'=>0,'S'=>0,'N'=>0,'Casos_RT'=>0,'Prima_Anterior'=>$Prima_Anterior,'patron'=>$patron);
+
+			if(!empty($reg_pats)){
+				foreach ($reg_pats as $regpat) {
+					$D['I']   += $this->prima_model->get_porcentajes($regpat,$anio)/100;
+					$D['D']   += $this->prima_model->get_defunciones($regpat);
+					$D['Casos_RT']  += $this->prima_model->get_casos_rt($regpat,$anio);
+					$casos_rt = $this->_casos_rt($regpat,$anio);
+					if($casos_rt){
+						$D['S']   += $casos_rt['S'];
+						$D['N']	  += $casos_rt['N'];
+					}					
+				}
+			}
+
+			$D['M']   = $this->prima_model->get_prima_minima()/100;
+			
+			$D['I']   += $this->prima_model->get_porcentajes($reg_pat,$anio)/100;
+			$D['D']   += $this->prima_model->get_defunciones($reg_pat);
 			$D['F']   = $this->prima_model->get_factor_prima();
 			
-			$D['Casos_RT']  = $this->prima_model->get_casos_rt($reg_pat,$anio);
+			$D['Casos_RT']  += $this->prima_model->get_casos_rt($reg_pat,$anio);
 			$casos_rt = $this->_casos_rt($reg_pat,$anio);
-			if($casos_rt){
-				$D['S']   = $casos_rt['S'];
-				$D['N']	  = $casos_rt['N'];		
 			
-		
+			if($casos_rt){
+				$D['S']   += $casos_rt['S'];
+				$D['N']	  += $casos_rt['N'];
+			}
+			elseif(!$D['N'])
+			  $D['msg'] = "No Existen Trabajadores Promedio Expuestos al Riesgo para este Periodo";
 
-			$D['Prima_Resultante'] =  $this->_Decimal((( ($D['S']/$D['DN']) + $D['V'] * ($D['I'] + $D['D']) ) * ($D['F']/$D['N']) + $D['M'])*100,5);
+
+			$D['Prima_Resultante'] =  @$this->_Decimal((( ($D['S']/$D['DN']) + $D['V'] * ($D['I'] + $D['D']) ) * ($D['F']/$D['N']) + $D['M'])*100,5);
 			$Limite_Superior = $D['Prima_Anterior']+1;
 			$Limite_Inferior = $D['Prima_Anterior']-1;
 
@@ -181,22 +205,12 @@ class Prima extends CI_Controller {
 			elseif($Limite_Inferior > $D['Prima_Resultante'])
 				$D['Prima_Nueva'] = $Limite_Inferior;
 			else
-				$D['Prima_Nueva'] = $D['Prima_Resultante'];
-			}else
-			  $D['msg'] = "No Existen Trabajadores Promedio Expuestos al Riesgo para este Periodo";
-
+				$D['Prima_Nueva'] = $D['Prima_Resultante'];			
 		}
-			
-			
+						
 			$D['anio'] = $anio;
 			$D['patrones'] = $this->prima_model->get_patrones($this->session->userdata('id'),$reg_pat,'REG_PAT');
-
-			$data['content'] = $this->load->view('prima/calculo_prima',$D,true);
-			$data['prima'] = TRUE;
-			$data['styles'] = array('prima','bootstrap.min');
-			$data['scripts'] = array('bootstrap.min');
-	        $this->load->view('template',$data);
-		
+			return $D;
 	}
 
 	public function reportes(){

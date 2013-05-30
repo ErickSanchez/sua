@@ -193,8 +193,6 @@ function sendForm(url){
 	  		</div>
 	  		<!-- -->			
 	  	</fieldset>
-	  	<fieldset class="well span10 info">
-	  	</fieldset>	  		
     	<fieldset class="well span10">  		  	
 	    		<button type="submit" id="send" class="btn span2 offset1">Generar</button>    			
 	    		<a href="<?= site_url()?>" class="btn span2 offset2" >Salir</a>

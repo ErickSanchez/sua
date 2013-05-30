@@ -254,8 +254,8 @@
     	</fieldset>
     	<fieldset class="well span10">  		  	
 	    		<button type="submit" class="btn span2">Calcular</button>    			
-	    		<a href="#" class="btn span3 offset1">Generar Archivo</a>
-	    		<a href="<?= site_url()?>" id="salir" class="btn span2 offset1">Salir</a>
+	    		<!--<a href="#" class="btn span3 offset1"></a>-->
+	    		<a href="<?= site_url()?>" id="salir" class="btn span2 offset5">Salir</a>
     	</fieldset>
 	</form>
   </div>

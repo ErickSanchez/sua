@@ -332,15 +332,18 @@ class Prima extends CI_Controller {
 			$i++;
 		}
 	}
+	private function _Table2($pdf,$x,$header,$width,$border = 1){
+		// Cabecera
+		$i = 0;
+		$pdf->SetX($x);
+		foreach($header as $col){
+			$pdf->Cell($width[$i],6,$col,$border);
+			$i++;
+		}
+	}
 
 	private function _RPT_RiesgosdeTarabajo($reg_pat = '',$inicio = '',$fin = ''){
-
-		/*echo $reg_pat."<br>";
-		echo $inicio.': '.$fin;
-			echo "<pre>";
-			print_r($_POST);
-			echo "</pre>";
-			exit();*/
+			$Patron = $this->_get_patron($reg_pat);
 			$this->fpdf->AddPage();
 			$this->fpdf->SetFont('Arial','B',16);
 			$this->fpdf->Image('imss.png',10,8,33);
@@ -353,40 +356,29 @@ class Prima extends CI_Controller {
 			  $this->fpdf->SetFont('Arial','B',8);
 			 $this->fpdf->Ln(10);
 			 $this->fpdf->Cell(50);
-			  $this->fpdf->Cell(40,10,'Periodo de Proceso del: ');
+			  $this->fpdf->Cell(40,10,'Periodo de Proceso del: '.$inicio);
 			  $this->fpdf->Cell(20);
-			  $this->fpdf->Cell(2,10,' al: ');
+			  $this->fpdf->Cell(2,10,' al: '.$fin);
 			  $this->fpdf->Ln(8);
 			 $this->fpdf->Cell(8);
-			  $this->fpdf->Cell(2,10,'Fecha: ');
+			  $this->fpdf->Cell(2,10,'Fecha: '.date('d/m/Y'));
 			   $this->fpdf->Cell(120);
-			  $this->fpdf->Cell(8,10,'Pagina: ');
+			  $this->fpdf->Cell(8,10,'Pagina:   1');
 			  $this->fpdf->Ln(7);
 			 $this->fpdf->Cell(8);
-			  $this->fpdf->Cell(2,10,'Registro Patronal: ');
+			  $this->fpdf->Cell(2,10,'Registro Patronal: '.$Patron->REG_PAT);
 			   $this->fpdf->Cell(80);
-			  $this->fpdf->Cell(8,10,'R.F.C. ');
+			  $this->fpdf->Cell(8,10,'R.F.C. '.$Patron->RFC_PAT);
 			  $this->fpdf->Ln(7);
 			 $this->fpdf->Cell(8);
-			  $this->fpdf->Cell(2,10,'Nombre o Razon Social: ');
+			  $this->fpdf->Cell(2,10,'Nombre o Razon Social: '.$Patron->NOM_PAT);
 			  
+			  $w = array(30,28,20,15,15,15,15,20,15);
+			  $this->fpdf->SetFont('Arial','B',6);
 			  $header = array('Numero de Seguro Social', 'Nombre del Asegurado', 'Fecha de Inicio', 'Tipo Rgo.', 'Con. Sec.', 'Dias Subs.', 'Porc. Incap.', 'Fecha Termino', 'Observaciones');
-			// Carga de datos
-			/*$data = LoadData('paises.txt');
-			$this->$fpdf->SetFont('Arial','',14);
-			$this->$fpdf->AddPage();
-			$this->$fpdf->BasicTable($header,$data);
-			$this->$fpdf->AddPage();
-			$this->$fpdf->ImprovedTable($header,$data);
-			$this->$fpdf->AddPage();
-			$this->$fpdf->FancyTable($header,$data);
-			  
-			  
-			$title = '20000 Leguas de Viaje Submarino';
-			$this->$fpdf->SetTitle($title);
-			$this->$fpdf->SetAuthor('Julio Verne');
-			$this->$fpdf->PrintChapter(1,'UN RIZO DE HUIDA','20k_c1.txt');
-			$this->$fpdf->PrintChapter(2,'LOS PROS Y LOS CONTRAS','20k_c2.txt');*/
+			
+			$this->fpdf->Ln(8);					
+			 $this->_Table2($this->fpdf,5,$header,$w,0);
 
 			
 			$this->fpdf->Output();

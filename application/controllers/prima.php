@@ -257,7 +257,7 @@ class Prima extends CI_Controller {
 			$Patron = $this->_get_patron($reg_pat);			
 			$this->fpdf->AddPage();
 			$this->fpdf->SetFont('Arial','B',16);
-			$this->fpdf->Image('imss.png',10,8,33);
+			$this->fpdf->Image(FCPATH.'assets/img/imss.png',10,8,33);
 			 $this->fpdf->Cell(40);
 			 $this->fpdf->Cell(140,10,'SISTEMA UNICO DE AUTODETERMINACION');
 			 $this->fpdf->SetFont('Arial','B',10);
@@ -346,7 +346,7 @@ class Prima extends CI_Controller {
 			$Patron = $this->_get_patron($reg_pat);
 			$this->fpdf->AddPage();
 			$this->fpdf->SetFont('Arial','B',16);
-			$this->fpdf->Image('imss.png',10,8,33);
+			$this->fpdf->Image(FCPATH.'assets/img/imss.png',10,8,33);
 			 $this->fpdf->Cell(40);
 			 $this->fpdf->Cell(140,10,'SISTEMA UNICO DE AUTODETERMINACION');
 			 $this->fpdf->SetFont('Arial','B',10);
@@ -386,37 +386,11 @@ class Prima extends CI_Controller {
 	
 	private function _RPT_CaratulaDeterminacion($reg_pat = '',$anio = ''){
 
-			$this->fpdf->AddPage();
+			$this->fpdf->AddPage('Landscape');
 			$this->fpdf->SetFont('Arial','B',10);
-			$this->fpdf->Image('imss.png',10,8,33);
-			 $this->fpdf->Cell(40);
-			 $this->fpdf->Cell(100,10,'DETERMINACION DE LA PRIMA EN EL SEGURO DE RIESGOS DE TRABAJO');
-			 $this->fpdf->Ln(4);
-			 $this->fpdf->Cell(45);
-			 $this->fpdf->Cell(120,10,'DERIVADA DE LA REVISION ANUAL DE LA SINIESTRALIDAD');
-			 $this->fpdf->SetFont('Arial','B',5);
-			 $this->fpdf->Ln(4);
-			 $this->fpdf->Cell(35);
-			  $this->fpdf->Cell(140,10,'INSTITUTO MEXICANO DEL SEGURO SOCIAL');
-			  $this->fpdf->Ln(4);
-			 $this->fpdf->Cell(35);
-			  $this->fpdf->Cell(140,10,'EN EL CUMPLIMIENTO A LO DISPUESTO POR LOS ARTICULOS 15, FRACCION IV. 71.72 Y 74 DE LA LEY DEL SEGURO SOCIAL Y');
-			  $this->fpdf->Ln(2);
-			 $this->fpdf->Cell(35);
-			  $this->fpdf->Cell(140,10,'DECIMO NOVENO TRASITORIO DEL DECRETO POR EL QUE SE REFORMAN DIVERSAS DISPOSICIONES DE LA LEY DEL SEGURO');
-			  $this->fpdf->Ln(2);
-			 $this->fpdf->Cell(35);
-			  $this->fpdf->Cell(140,10,'SOCIAL, PUBLICADO EN EL DIARIO OFICIAL DE LA FEDERACION DEL 20 DE DICIEMBRE DE 2001 Y ARTUCULOS Y FRACCION IV.2');
-			   $this->fpdf->Ln(2);
-			 $this->fpdf->Cell(35);
-			  $this->fpdf->Cell(140,10,'FRACCION VII.3 DEL 32 AL 39, 47 Y 196 DEL REGLAMENTO DE LA LEY DEL SEGURO SOCIAL EN MATERIA DE AFILIACION');
-			   $this->fpdf->Ln(2);
-			 $this->fpdf->Cell(35);
-			  $this->fpdf->Cell(140,10,'CALIFICACION DE EMPRESAS, RECAUDACION Y FISCALIZACION, MANIFIESTO, BAJO PROTESTA DE DECIR VERDAD. QUE LOS');
-			   $this->fpdf->Ln(2);
-			 $this->fpdf->Cell(35);
-			  $this->fpdf->Cell(140,10,'DATOS ASENTADOS EN ESTE DOCUMENTO SON REA;ES RESPECTO A LA SINIESTRALIDAD OCURRIDA EN ESTA EMPRESA');
-			  $this->fpdf->Output();
+			$this->fpdf->Image(FCPATH.'assets/img/caratula.png',4,8,290,180);
+
+			$this->fpdf->Output();
 	}
 
 	private function _RPT_CasosRT($reg_pat = '',$reg_pats = array(),$anio = ''){
@@ -424,7 +398,7 @@ class Prima extends CI_Controller {
 			$this->fpdf->AddPage();
 			$Patron = $this->_get_patron($reg_pat);
 			$this->fpdf->SetFont('Arial','B',10);
-			$this->fpdf->Image('imss.png',10,8,33);
+			$this->fpdf->Image(FCPATH.'assets/img/imss.png',10,8,33);
 			 $this->fpdf->Ln(10);
 			 $this->fpdf->Cell(40);
 			 $this->fpdf->Cell(100,10,'RELACION DE CASOS DE RIESGOS DE TRABAJO TERMINADOS');
@@ -461,7 +435,7 @@ class Prima extends CI_Controller {
 		$Patron = $this->_get_patron($reg_pat);
 			$this->fpdf->AddPage();
 			$this->fpdf->SetFont('Arial','B',16);
-			$this->fpdf->Image('imss.png',10,8,33);
+			$this->fpdf->Image(FCPATH.'assets/img/imss.png',10,8,33);
 			 $this->fpdf->Cell(40);
 			 $this->fpdf->Cell(140,10,'SISTEMA UNICO DE AUTODETERMINACION');
 			 $this->fpdf->SetFont('Arial','B',10);

@@ -225,7 +225,7 @@ class Prima extends CI_Controller {
 				case 4:
 					$reg_pats = $_POST['reg_pats'];
 					$reg_pats[] = $reg_pat;
-					$this->_RPT_CasosRT($reg_pats,$_POST['anio']);
+					$this->_RPT_CasosRT($reg_pat,$reg_pats,$_POST['anio']);
 					break;
 				case 5:
 					$this->_RPT_Incapacidades($reg_pat,$_POST['inicio'],$_POST['fin'],$_POST['ramo']);
@@ -386,13 +386,6 @@ class Prima extends CI_Controller {
 	
 	private function _RPT_CaratulaDeterminacion($reg_pat = '',$anio = ''){
 
-		/*echo $reg_pat."<br>";
-		echo $anio;
-			echo "<pre>";
-			print_r($_POST);
-			echo "</pre>";
-			exit();
-			*/
 			$this->fpdf->AddPage();
 			$this->fpdf->SetFont('Arial','B',10);
 			$this->fpdf->Image('imss.png',10,8,33);
@@ -426,15 +419,10 @@ class Prima extends CI_Controller {
 			  $this->fpdf->Output();
 	}
 
-	private function _RPT_CasosRT($reg_pats = array(),$anio = ''){
-
-			/*echo $anio;
-			echo "<pre>";
-			print_r($reg_pats);
-			print_r($_POST);
-			echo "</pre>";
-			exit();*/
+	private function _RPT_CasosRT($reg_pat = '',$reg_pats = array(),$anio = ''){
+	
 			$this->fpdf->AddPage();
+			$Patron = $this->_get_patron($reg_pat);
 			$this->fpdf->SetFont('Arial','B',10);
 			$this->fpdf->Image('imss.png',10,8,33);
 			 $this->fpdf->Ln(10);
@@ -448,20 +436,58 @@ class Prima extends CI_Controller {
 			 $this->fpdf->SetFont('Arial','B',5);
 			 $this->fpdf->Cell(8);
 			 $this->fpdf->Cell(100,10,'REGISTRO PATRONAL  D.V.');
-			 $this->fpdf->Cell(120,10,'Fecha de Proceso: ');
+			 $this->fpdf->Cell(120,10,'Fecha de Proceso: '.date('d/m/Y'));
+			 $this->fpdf->Ln(4);
+			 $this->fpdf->Cell(12);
+			 $this->fpdf->Cell(100,10,''.$Patron->REG_PAT);
+			 $this->fpdf->Ln(4);
+			 $this->fpdf->Cell(8);
+			 $this->fpdf->Cell(60,10,'NOMBRE DENOMINACION O RAZON SOCIAL: ');
+			 $this->fpdf->Cell(80,10,'DOMICILIO: '.$Patron->DOM_PAT);
+			 $this->fpdf->Cell(60,10,'C.P. '.$Patron->CPP_PAT);
+			  $this->fpdf->Ln(4);
+			 $this->fpdf->Cell(12);
+			 $this->fpdf->Cell(56,10,''.$Patron->NOM_PAT);
+			 $this->fpdf->Cell(80,10,'MPIO/DELEG: '.$Patron->MUN_PAT);
+			 $this->fpdf->Cell(60,10,'TEL: '.$Patron->TEL_PAT);
+
+			  
 			 $this->fpdf->Output();
 			
 			
 	}
 	private function _RPT_Incapacidades($reg_pat = '',$inicio = '',$fin = '',$ramo = 0){
 
-		echo $reg_pat."<br>";
-		echo $inicio.': '.$fin.'<br>';
-		echo $ramo;
-			echo "<pre>";
-			print_r($_POST);
-			echo "</pre>";
-			exit();
+		$Patron = $this->_get_patron($reg_pat);
+			$this->fpdf->AddPage();
+			$this->fpdf->SetFont('Arial','B',16);
+			$this->fpdf->Image('imss.png',10,8,33);
+			 $this->fpdf->Cell(40);
+			 $this->fpdf->Cell(140,10,'SISTEMA UNICO DE AUTODETERMINACION');
+			 $this->fpdf->SetFont('Arial','B',10);
+			 $this->fpdf->Ln(6);
+			 $this->fpdf->Cell(60);
+			  $this->fpdf->Cell(140,10,'REPORTE DE INCAPACIDADES');
+			  $this->fpdf->SetFont('Arial','B',8);
+			 $this->fpdf->Ln(10);
+			 $this->fpdf->Cell(50);
+			  $this->fpdf->Cell(40,10,'Periodo de Proceso del: '.$inicio);
+			  $this->fpdf->Cell(20);
+			  $this->fpdf->Cell(2,10,' al: '.$fin);
+			  $this->fpdf->Ln(8);
+			 $this->fpdf->Cell(8);
+			  $this->fpdf->Cell(2,10,'Fecha: '.date('d/m/Y'));
+			   $this->fpdf->Cell(120);
+			  $this->fpdf->Cell(8,10,'Pagina:   1');
+			  $this->fpdf->Ln(7);
+			 $this->fpdf->Cell(8);
+			  $this->fpdf->Cell(2,10,'Registro Patronal: '.$Patron->REG_PAT);
+			   $this->fpdf->Cell(80);
+			  $this->fpdf->Cell(8,10,'R.F.C. '.$Patron->RFC_PAT);
+			  $this->fpdf->Ln(7);
+			 $this->fpdf->Cell(8);
+			  $this->fpdf->Cell(2,10,'Nombre o Razon Social: '.$Patron->NOM_PAT);
+			$this->fpdf->Output();
 	}
 	private function _get_reg_pat(){
 

@@ -346,6 +346,7 @@ class Prima extends CI_Controller {
 			$i++;
 		}
 	}
+
 	private function _Table2($pdf,$x,$header,$width,$border = 1){
 		// Cabecera
 		$i = 0;
@@ -446,7 +447,7 @@ class Prima extends CI_Controller {
 	}
 	private function _RPT_Incapacidades($reg_pat = '',$inicio = '',$fin = '',$ramo = 0){
 
-		$Patron = $this->_get_patron($reg_pat);
+			$Patron = $this->_get_patron($reg_pat);
 			$this->fpdf->AddPage();
 			$this->fpdf->SetFont('Arial','B',16);
 			$this->fpdf->Image(FCPATH.'assets/img/imss.png',10,8,33);
@@ -462,20 +463,87 @@ class Prima extends CI_Controller {
 			  $this->fpdf->Cell(40,10,'Periodo de Proceso del: '.$inicio);
 			  $this->fpdf->Cell(20);
 			  $this->fpdf->Cell(2,10,' al: '.$fin);
-			  $this->fpdf->Ln(8);
-			 $this->fpdf->Cell(8);
-			  $this->fpdf->Cell(2,10,'Fecha: '.date('d/m/Y'));
-			   $this->fpdf->Cell(120);
-			  $this->fpdf->Cell(8,10,'Pagina:   1');
-			  $this->fpdf->Ln(7);
-			 $this->fpdf->Cell(8);
-			  $this->fpdf->Cell(2,10,'Registro Patronal: '.$Patron->REG_PAT);
-			   $this->fpdf->Cell(80);
+			  
+			  $this->fpdf->Ln(10);
+			  $this->fpdf->Cell(120,10,'Fecha: '.date('d/m/Y'));
+			  $this->fpdf->Cell(8,10,'Pagina:   1');			  
+
+			  $this->fpdf->Ln(6);
+			  $this->fpdf->Cell(100,10,'Registro Patronal: '.$Patron->REG_PAT);
 			  $this->fpdf->Cell(8,10,'R.F.C. '.$Patron->RFC_PAT);
-			  $this->fpdf->Ln(7);
-			 $this->fpdf->Cell(8);
-			  $this->fpdf->Cell(2,10,'Nombre o Razon Social: '.$Patron->NOM_PAT);
+
+			  $this->fpdf->Ln(6);
+			  $this->fpdf->Cell(120,10,'Nombre o Razon Social: '.$Patron->NOM_PAT);
+			  $this->fpdf->Ln(6);
+			  $this->fpdf->SetLineWidth(.4);
+			  $this->fpdf->Line(10,56,200,56);
+
+			  $this->fpdf->Cell(45,10,utf8_decode("Número de Seguridad Social"));
+			  $this->fpdf->Cell(80,10,"Nombre del Trabajador");
+			  
+			  $this->fpdf->Ln(4);
+			  $this->fpdf->SetFontSize(7);
+			  
+			  $this->fpdf->SetFont('Arial','',8);
+			  $width  = array(35,35,38,25,16,17,12,13);
+			  $height = array(6,6,6,3,3,6,3,6);
+			  $data   = array(array("  Ramo de Seguro",
+			  						'Tipo de Riesgo',
+			  							'Secuela o Consecuencia',
+			  							"Control de la\n Incapacidad",
+			  							"Fecha de\n Inicio",
+			  							"Folio",
+			  							utf8_decode("Días\n Subs."),
+			  							'% Incap.'));
+			  $this->_TableMultiCell($this->fpdf,10,$width,$height,$data);			  
+			$this->fpdf->SetLineWidth(.4);
+			$this->fpdf->Line(10,67,200,67);
+			$inicio = $this->_Fecha($inicio);
+			$fin    = $this->_Fecha($fin);
+			
+			$trabajadores = $this->prima_model->get_Num_Afiliacion($reg_pat);
+			
+
+
+			$height = array(6,6,6,6,6,6,6,6);
+			foreach ($trabajadores as $trabajador) {
+
+				 	$data = $this->prima_model->get_datos_inc($reg_pat,$trabajador->NUM_AFIL,$inicio,$fin,$ramo);
+				 	if($data){
+				 		$this->fpdf->SetFont('Arial','B',8);
+						$this->fpdf->Cell(120,10,$trabajador->NUM_AFIL."     ".$trabajador->TMP_NOM);
+						$this->fpdf->Ln(4);
+						$this->fpdf->SetFont('Arial','',8);	
+					foreach ($data as $cols) {
+
+						$row =  array(array($cols->Ram_Seg,$cols->Tip_Rie,$cols->Secuela,substr($cols->Con_Inc,0,12),$cols->Fecha,$cols->Fol_Inc,$cols->Dia_Sub,$cols->Por_Inc)	);
+						$this->_TableMultiCell($this->fpdf,10,$width,$height,$row);
+					}
+				}
+			}
+
+			//$this->_TableMultiCell($this->fpdf,10,$width,$height,$data);			  
 			$this->fpdf->Output();
+	}
+
+	private function _TableMultiCell($pdf,$x,$width,$height, $data,$border = 0){
+		
+		$i = 0;
+		$y = $pdf->GetY() + 2;
+		$pdf->SetXY($x,$y);				
+		foreach($data as $row){
+		$i = 0;
+		$xx = $x;
+			foreach($row as $col){
+				$pdf->MultiCell($width[$i],$height[$i],$col,$border);
+				$xx+=$width[$i];
+				$pdf->SetXY($xx,$y);
+				$i++;
+			}
+			$pdf->Ln();
+			
+
+		}
 	}
 	private function _get_reg_pat(){
 
@@ -511,5 +579,9 @@ class Prima extends CI_Controller {
 	    $multiplicador = pow ($raiz,$digitos);
 	    $resultado = ((int)($numero * $multiplicador)) / $multiplicador;
 	    return number_format($resultado, $digitos);
+	}
+
+	private function _Fecha($fecha = '21/06/2012'){	
+	    return  substr($fecha,6,4).'-'.substr($fecha,3,2).'-'.substr($fecha,0,2);
 	}
 }

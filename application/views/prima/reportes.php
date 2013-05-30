@@ -133,10 +133,10 @@ function sendForm(url){
 	    		<label class="control-label" for="ramo">Ramo de Seguro</label>
 	    		<div class="controls">
 	      			<select id="ramo" name="ramo" class="span3">
-	      				<option value="1">Todos</option>
-	      				<option value="2">1 Riesgos de Tabjo</option>
-	      				<option value="3">2 Enfermedad General</option>
-	      				<option value="4">3 Maternidad</option>
+	      				<option value="0">Todos</option>
+	      				<option value="1">1 Riesgos de Tabjo</option>
+	      				<option value="2">2 Enfermedad General</option>
+	      				<option value="3">3 Maternidad</option>
 	      			</select>
 	    		</div>
 	  		</div>	  			

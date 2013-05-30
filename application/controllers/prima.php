@@ -34,10 +34,10 @@ class Prima extends CI_Controller {
 		$data['title'] = $patron->REG_PAT.' :: '.$patron->NOM_PAT;
 		$content_data['patron']	= $patron;
 
-
+		$reg_pat = $this->session->userdata('patron');
 		if(!empty($_POST['anio'])){
 			$anio = $_POST['anio'];
-			$calculos = $this->_casos_rt($this->session->userdata('patron'),$anio);
+			$calculos = $this->_casos_rt($reg_pat,$anio);
 		}
 		else
 			$anio = date('Y')-1;
@@ -225,7 +225,7 @@ class Prima extends CI_Controller {
 				case 4:
 					$reg_pats = $_POST['reg_pats'];
 					$reg_pats[] = $reg_pat;
-					$this->_RPT_CasosRT($reg_pats,$_POST['anio']);
+					$this->_RPT_CasosRT($reg_pat,$reg_pats,$_POST['anio']);
 					break;
 				case 5:
 					$this->_RPT_Incapacidades($reg_pat,$_POST['inicio'],$_POST['fin'],$_POST['ramo']);
@@ -252,51 +252,242 @@ class Prima extends CI_Controller {
 	}
 
 	private function _RPT_TrabajadoresExpuestosRT($reg_pat = '',$anio = ''){
-
+			
+			$Meses = $this->_casos_rt($reg_pat,$anio);
+			$Patron = $this->_get_patron($reg_pat);			
 			$this->fpdf->AddPage();
 			$this->fpdf->SetFont('Arial','B',16);
-			$this->fpdf->Cell(40,10,'¡Hola, Mundo!');
+			$this->fpdf->Image('imss.png',10,8,33);
+			 $this->fpdf->Cell(40);
+			 $this->fpdf->Cell(140,10,'SISTEMA UNICO DE AUTODETERMINACION');
+			 $this->fpdf->SetFont('Arial','B',10);
+			 $this->fpdf->Ln(6);
+			 $this->fpdf->Cell(60);
+			  $this->fpdf->Cell(140,10,'REPORTE DE DIAZ COTIZADOS Y');
+			   $this->fpdf->Ln(4);
+			 $this->fpdf->Cell(43);
+			  $this->fpdf->Cell(140,10,'TRABAJADORES PROMEDIO EXPUESTOS AL RIESGO');
+			  $this->fpdf->SetFont('Arial','B',8);
+			 $this->fpdf->Ln(10);
+			 $this->fpdf->Cell(80);
+			  $this->fpdf->Cell(140,10,'Periodo de Computo: '.$anio);
+			  $this->fpdf->Ln(8);
+			 $this->fpdf->Cell(8);
+			  $this->fpdf->Cell(2,10,'Fecha: '.date('d/m/Y'));
+			   $this->fpdf->Cell(120);
+			  $this->fpdf->Cell(8,10,'Pagina:   1');
+			  $this->fpdf->Ln(7);
+			 $this->fpdf->Cell(8);
+			  $this->fpdf->Cell(2,10,'Registro Patronal: '.$Patron->REG_PAT);
+			   $this->fpdf->Cell(80);
+			  $this->fpdf->Cell(8,10,'R.F.C. '.$Patron->RFC_PAT);
+			  $this->fpdf->Ln(7);
+			 $this->fpdf->Cell(8);
+			  $this->fpdf->Cell(2,10,'Nombre o Razon Social: '.$Patron->NOM_PAT);
+			  $this->fpdf->Ln(7);
+			 $this->fpdf->Cell(40);
+			 ////Tabla
+			  $w = array(80, 40,);
+			  $meses = array(array('Enero',$Meses['Meses'][1]),
+								array('Febrero',$Meses['Meses'][2]),
+								array('Marzo',$Meses['Meses'][3]),
+								array('Abril',$Meses['Meses'][4]),
+								array('Mayo',$Meses['Meses'][5]),
+								array('Junio',$Meses['Meses'][6]),
+								array('Julio',$Meses['Meses'][7]),
+								array('Agosto',$Meses['Meses'][8]),
+								array('Septiembre',$Meses['Meses'][9]),
+								array('Octubre',$Meses['Meses'][10]),
+								array('Noviembre',$Meses['Meses'][11]),
+								array('Diciembre',$Meses['Meses'][12]),
+								array('Total Dias Cotizados                         =',$Meses['Total']),
+								array('Dividido entre 365 Dias                      =',$Meses['N'].'   =   Trabajadores Promedio'),
+								array('','               Expuestos al Riesgo')
+								);
+			 $this->fpdf->Ln(4);					
+			 $this->_Table($this->fpdf,40,array('Mes:','Dias Cotizados:'),$w,$meses,0);
+			  //$this->fpdf->Cell(10,10,'Mes: ',1);
+			  // $this->fpdf->Cell(60,1,1,1);
+			  //$this->fpdf->Cell(2,10,'Dias Cotizados: ');
+			  
 			$this->fpdf->Output();
 	}
-	
-	private function _RPT_RiesgosdeTarabajo($reg_pat = '',$inicio = '',$fin = ''){
+	private function _Table($pdf,$x,$header,$width,$data,$border = 1){
+		// Cabecera
+		$i = 0;
+		$pdf->SetX($x);
+		foreach($header as $col){
+			$pdf->Cell($width[$i],6,$col,$border);
+			$i++;
+		}
+		$pdf->Ln();
+		// Datos
+		
+		foreach($data as $row){
+		$i = 0;
+		$pdf->SetX($x);
+			foreach($row as $col)
+				$pdf->Cell($width[$i],6,$col,$border);
+			$pdf->Ln();
+			$i++;
+		}
+	}
+	private function _Table2($pdf,$x,$header,$width,$border = 1){
+		// Cabecera
+		$i = 0;
+		$pdf->SetX($x);
+		foreach($header as $col){
+			$pdf->Cell($width[$i],6,$col,$border);
+			$i++;
+		}
+	}
 
-		echo $reg_pat."<br>";
-		echo $inicio.': '.$fin;
-			echo "<pre>";
-			print_r($_POST);
-			echo "</pre>";
-			exit();
+	private function _RPT_RiesgosdeTarabajo($reg_pat = '',$inicio = '',$fin = ''){
+			$Patron = $this->_get_patron($reg_pat);
+			$this->fpdf->AddPage();
+			$this->fpdf->SetFont('Arial','B',16);
+			$this->fpdf->Image('imss.png',10,8,33);
+			 $this->fpdf->Cell(40);
+			 $this->fpdf->Cell(140,10,'SISTEMA UNICO DE AUTODETERMINACION');
+			 $this->fpdf->SetFont('Arial','B',10);
+			 $this->fpdf->Ln(6);
+			 $this->fpdf->Cell(60);
+			  $this->fpdf->Cell(140,10,'REPORTE DE RIESGO DE TRABAJO');
+			  $this->fpdf->SetFont('Arial','B',8);
+			 $this->fpdf->Ln(10);
+			 $this->fpdf->Cell(50);
+			  $this->fpdf->Cell(40,10,'Periodo de Proceso del: '.$inicio);
+			  $this->fpdf->Cell(20);
+			  $this->fpdf->Cell(2,10,' al: '.$fin);
+			  $this->fpdf->Ln(8);
+			 $this->fpdf->Cell(8);
+			  $this->fpdf->Cell(2,10,'Fecha: '.date('d/m/Y'));
+			   $this->fpdf->Cell(120);
+			  $this->fpdf->Cell(8,10,'Pagina:   1');
+			  $this->fpdf->Ln(7);
+			 $this->fpdf->Cell(8);
+			  $this->fpdf->Cell(2,10,'Registro Patronal: '.$Patron->REG_PAT);
+			   $this->fpdf->Cell(80);
+			  $this->fpdf->Cell(8,10,'R.F.C. '.$Patron->RFC_PAT);
+			  $this->fpdf->Ln(7);
+			 $this->fpdf->Cell(8);
+			  $this->fpdf->Cell(2,10,'Nombre o Razon Social: '.$Patron->NOM_PAT);
+			  
+			  $w = array(30,28,20,15,15,15,15,20,15);
+			  $this->fpdf->SetFont('Arial','B',6);
+			  $header = array('Numero de Seguro Social', 'Nombre del Asegurado', 'Fecha de Inicio', 'Tipo Rgo.', 'Con. Sec.', 'Dias Subs.', 'Porc. Incap.', 'Fecha Termino', 'Observaciones');
+			
+			$this->fpdf->Ln(8);					
+			 $this->_Table2($this->fpdf,5,$header,$w,0);
+
+			
+			$this->fpdf->Output();
 	}
 	
 	private function _RPT_CaratulaDeterminacion($reg_pat = '',$anio = ''){
 
-		echo $reg_pat."<br>";
-		echo $anio;
-			echo "<pre>";
-			print_r($_POST);
-			echo "</pre>";
-			exit();
+			$this->fpdf->AddPage();
+			$this->fpdf->SetFont('Arial','B',10);
+			$this->fpdf->Image('imss.png',10,8,33);
+			 $this->fpdf->Cell(40);
+			 $this->fpdf->Cell(100,10,'DETERMINACION DE LA PRIMA EN EL SEGURO DE RIESGOS DE TRABAJO');
+			 $this->fpdf->Ln(4);
+			 $this->fpdf->Cell(45);
+			 $this->fpdf->Cell(120,10,'DERIVADA DE LA REVISION ANUAL DE LA SINIESTRALIDAD');
+			 $this->fpdf->SetFont('Arial','B',5);
+			 $this->fpdf->Ln(4);
+			 $this->fpdf->Cell(35);
+			  $this->fpdf->Cell(140,10,'INSTITUTO MEXICANO DEL SEGURO SOCIAL');
+			  $this->fpdf->Ln(4);
+			 $this->fpdf->Cell(35);
+			  $this->fpdf->Cell(140,10,'EN EL CUMPLIMIENTO A LO DISPUESTO POR LOS ARTICULOS 15, FRACCION IV. 71.72 Y 74 DE LA LEY DEL SEGURO SOCIAL Y');
+			  $this->fpdf->Ln(2);
+			 $this->fpdf->Cell(35);
+			  $this->fpdf->Cell(140,10,'DECIMO NOVENO TRASITORIO DEL DECRETO POR EL QUE SE REFORMAN DIVERSAS DISPOSICIONES DE LA LEY DEL SEGURO');
+			  $this->fpdf->Ln(2);
+			 $this->fpdf->Cell(35);
+			  $this->fpdf->Cell(140,10,'SOCIAL, PUBLICADO EN EL DIARIO OFICIAL DE LA FEDERACION DEL 20 DE DICIEMBRE DE 2001 Y ARTUCULOS Y FRACCION IV.2');
+			   $this->fpdf->Ln(2);
+			 $this->fpdf->Cell(35);
+			  $this->fpdf->Cell(140,10,'FRACCION VII.3 DEL 32 AL 39, 47 Y 196 DEL REGLAMENTO DE LA LEY DEL SEGURO SOCIAL EN MATERIA DE AFILIACION');
+			   $this->fpdf->Ln(2);
+			 $this->fpdf->Cell(35);
+			  $this->fpdf->Cell(140,10,'CALIFICACION DE EMPRESAS, RECAUDACION Y FISCALIZACION, MANIFIESTO, BAJO PROTESTA DE DECIR VERDAD. QUE LOS');
+			   $this->fpdf->Ln(2);
+			 $this->fpdf->Cell(35);
+			  $this->fpdf->Cell(140,10,'DATOS ASENTADOS EN ESTE DOCUMENTO SON REA;ES RESPECTO A LA SINIESTRALIDAD OCURRIDA EN ESTA EMPRESA');
+			  $this->fpdf->Output();
 	}
 
-	private function _RPT_CasosRT($reg_pats = array(),$anio = ''){
+	private function _RPT_CasosRT($reg_pat = '',$reg_pats = array(),$anio = ''){
+	
+			$this->fpdf->AddPage();
+			$Patron = $this->_get_patron($reg_pat);
+			$this->fpdf->SetFont('Arial','B',10);
+			$this->fpdf->Image('imss.png',10,8,33);
+			 $this->fpdf->Ln(10);
+			 $this->fpdf->Cell(40);
+			 $this->fpdf->Cell(100,10,'RELACION DE CASOS DE RIESGOS DE TRABAJO TERMINADOS');
+			 $this->fpdf->Ln(4);
+			 $this->fpdf->SetFont('Arial','B',7);
+			 $this->fpdf->Cell(45);
+			 $this->fpdf->Cell(120,10,'(DURANTE EL PERIODO DEL 1o. DE ENERO AL 31 DE DICIEMBRE DE 2011)');
+			 $this->fpdf->Ln(10);
+			 $this->fpdf->SetFont('Arial','B',5);
+			 $this->fpdf->Cell(8);
+			 $this->fpdf->Cell(100,10,'REGISTRO PATRONAL  D.V.');
+			 $this->fpdf->Cell(120,10,'Fecha de Proceso: '.date('d/m/Y'));
+			 $this->fpdf->Ln(4);
+			 $this->fpdf->Cell(12);
+			 $this->fpdf->Cell(100,10,''.$Patron->REG_PAT);
+			 $this->fpdf->Ln(4);
+			 $this->fpdf->Cell(8);
+			 $this->fpdf->Cell(60,10,'NOMBRE DENOMINACION O RAZON SOCIAL: ');
+			 $this->fpdf->Cell(80,10,'DOMICILIO: '.$Patron->DOM_PAT);
+			 $this->fpdf->Cell(60,10,'C.P. '.$Patron->CPP_PAT);
+			  $this->fpdf->Ln(4);
+			 $this->fpdf->Cell(12);
+			 $this->fpdf->Cell(56,10,''.$Patron->NOM_PAT);
+			 $this->fpdf->Cell(80,10,'MPIO/DELEG: '.$Patron->MUN_PAT);
+			 $this->fpdf->Cell(60,10,'TEL: '.$Patron->TEL_PAT);
 
-			echo $anio;
-			echo "<pre>";
-			print_r($reg_pats);
-			print_r($_POST);
-			echo "</pre>";
-			exit();
+			  
+			 $this->fpdf->Output();
+			
+			
 	}
 	private function _RPT_Incapacidades($reg_pat = '',$inicio = '',$fin = '',$ramo = 0){
 
-		echo $reg_pat."<br>";
-		echo $inicio.': '.$fin.'<br>';
-		echo $ramo;
-			echo "<pre>";
-			print_r($_POST);
-			echo "</pre>";
-			exit();
+		$Patron = $this->_get_patron($reg_pat);
+			$this->fpdf->AddPage();
+			$this->fpdf->SetFont('Arial','B',16);
+			$this->fpdf->Image('imss.png',10,8,33);
+			 $this->fpdf->Cell(40);
+			 $this->fpdf->Cell(140,10,'SISTEMA UNICO DE AUTODETERMINACION');
+			 $this->fpdf->SetFont('Arial','B',10);
+			 $this->fpdf->Ln(6);
+			 $this->fpdf->Cell(60);
+			  $this->fpdf->Cell(140,10,'REPORTE DE INCAPACIDADES');
+			  $this->fpdf->SetFont('Arial','B',8);
+			 $this->fpdf->Ln(10);
+			 $this->fpdf->Cell(50);
+			  $this->fpdf->Cell(40,10,'Periodo de Proceso del: '.$inicio);
+			  $this->fpdf->Cell(20);
+			  $this->fpdf->Cell(2,10,' al: '.$fin);
+			  $this->fpdf->Ln(8);
+			 $this->fpdf->Cell(8);
+			  $this->fpdf->Cell(2,10,'Fecha: '.date('d/m/Y'));
+			   $this->fpdf->Cell(120);
+			  $this->fpdf->Cell(8,10,'Pagina:   1');
+			  $this->fpdf->Ln(7);
+			 $this->fpdf->Cell(8);
+			  $this->fpdf->Cell(2,10,'Registro Patronal: '.$Patron->REG_PAT);
+			   $this->fpdf->Cell(80);
+			  $this->fpdf->Cell(8,10,'R.F.C. '.$Patron->RFC_PAT);
+			  $this->fpdf->Ln(7);
+			 $this->fpdf->Cell(8);
+			  $this->fpdf->Cell(2,10,'Nombre o Razon Social: '.$Patron->NOM_PAT);
+			$this->fpdf->Output();
 	}
 	private function _get_reg_pat(){
 
@@ -308,16 +499,17 @@ class Prima extends CI_Controller {
 			redirect('prima/seleccionar','refresh');
 	}
 
-	private function _get_patron(){
+	private function _get_patron($reg_pat = ''){
 
-		 $patron = $this->_get_reg_pat();
-		if(!empty($patron)){
-			$patron = $this->prima_model->get_patron($patron);
+		if(empty($reg_pat))
+		 	$reg_pat = $this->_get_reg_pat();
+		if(!empty($reg_pat)){
+			$patron = $this->prima_model->get_patron($reg_pat);
 			if($patron){
 				return $patron[0];
 			}
 		}
-		redirect('','refresh');
+		return null;
 	}
 
 	private function _check_session(){		

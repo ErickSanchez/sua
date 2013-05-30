@@ -1,3 +1,4 @@
+
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#salir").click(function(){
@@ -7,19 +8,19 @@ $(document).ready(function(){
 	
 </script>
 <div class="offset1">
-  	<?php echo form_open('',array('class'=>'form-horizontal'));?>
+<?php echo form_open('',array('class'=>'form-horizontal'));?>
   		  <fieldset class="well span10">	  	
 	  		<div class="control-group">
 	    		<label class="control-label" for="anio">Año a Calcular</label>
 	    		<div class="controls">
-	      			<select id="anio" name="anio">
+	     			<select id="anio" name="anio">
 	      				<?php for ($i=1997; $i < date('Y')+2; $i++) { 
 	      					if($anio == $i)
 	      						echo '<option selected>'.$i.'</option>';
 	      					else
 	      						echo '<option>'.$i.'</option>';
 	      				}?>
-	      			</select>
+	     			</select>
 	    		</div>
 	  		</div>
 	  		<div class="control-group span5 alpha">

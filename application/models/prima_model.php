@@ -98,8 +98,7 @@ class Prima_model extends CI_Model {
 	public function get_Num_Afiliacion($reg_pat = ''){
 		return $this->db->query("SELECT NUM_AFIL,TMP_NOM FROM asegura WHERE REG_PATR = '$reg_pat'")->result();
 	}
-	public function get_datos_inc($reg_pat,$num_afi,$inicio,$fin,$ramo){
-		
+	public function get_datos_inc($reg_pat,$num_afi,$inicio = '',$fin = '',$ramo = ''){		
 		$ramo_sql = '';
 			if($ramo)
 				$ramo_sql = " AND Ram_Seg LIKE '%".$ramo."%' ";

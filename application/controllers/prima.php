@@ -362,41 +362,89 @@ class Prima extends CI_Controller {
 			$this->fpdf->AddPage();
 			$this->fpdf->SetFont('Arial','B',16);
 			$this->fpdf->Image(FCPATH.'assets/img/imss.png',10,8,33);
-			 $this->fpdf->Cell(40);
-			 $this->fpdf->Cell(140,10,'SISTEMA UNICO DE AUTODETERMINACION');
-			 $this->fpdf->SetFont('Arial','B',10);
-			 $this->fpdf->Ln(6);
-			 $this->fpdf->Cell(60);
-			  $this->fpdf->Cell(140,10,'REPORTE DE RIESGO DE TRABAJO');
-			  $this->fpdf->SetFont('Arial','B',8);
-			 $this->fpdf->Ln(10);
-			 $this->fpdf->Cell(50);
-			  $this->fpdf->Cell(40,10,'Periodo de Proceso del: '.$inicio);
-			  $this->fpdf->Cell(20);
-			  $this->fpdf->Cell(2,10,' al: '.$fin);
-			  $this->fpdf->Ln(8);
-			 $this->fpdf->Cell(8);
-			  $this->fpdf->Cell(2,10,'Fecha: '.date('d/m/Y'));
-			   $this->fpdf->Cell(120);
-			  $this->fpdf->Cell(8,10,'Pagina:   1');
-			  $this->fpdf->Ln(7);
-			 $this->fpdf->Cell(8);
-			  $this->fpdf->Cell(2,10,'Registro Patronal: '.$Patron->REG_PAT);
-			   $this->fpdf->Cell(80);
-			  $this->fpdf->Cell(8,10,'R.F.C. '.$Patron->RFC_PAT);
-			  $this->fpdf->Ln(7);
-			 $this->fpdf->Cell(8);
-			  $this->fpdf->Cell(2,10,'Nombre o Razon Social: '.$Patron->NOM_PAT);
+			$this->fpdf->Cell(40);
+			$this->fpdf->Cell(140,10,'SISTEMA UNICO DE AUTODETERMINACION');
+			$this->fpdf->SetFont('Arial','B',10);
+			$this->fpdf->Ln(6);
+			$this->fpdf->Cell(60);
+			$this->fpdf->Cell(140,10,'REPORTE DE INCAPACIDADES');
+			$this->fpdf->SetFont('Arial','B',8);
+			$this->fpdf->Ln(10);
+			$this->fpdf->Cell(50);
+			$this->fpdf->Cell(40,10,'Periodo de Proceso del: '.$inicio);
+			$this->fpdf->Cell(20);
+			$this->fpdf->Cell(2,10,' al: '.$fin);
 			  
-			  $w = array(30,28,20,15,15,15,15,20,15);
-			  $this->fpdf->SetFont('Arial','B',6);
-			  $header = array('Numero de Seguro Social', 'Nombre del Asegurado', 'Fecha de Inicio', 'Tipo Rgo.', 'Con. Sec.', 'Dias Subs.', 'Porc. Incap.', 'Fecha Termino', 'Observaciones');
-			
-			$this->fpdf->Ln(8);					
-			 $this->_Table2($this->fpdf,5,$header,$w,0);
+			$this->fpdf->Ln(10);
+			$this->fpdf->Cell(120,10,'Fecha: '.date('d/m/Y'));
+			$this->fpdf->Cell(8,10,'Pagina:   1');			  
+		  	$this->fpdf->Ln(6);
+			$this->fpdf->Cell(100,10,'Registro Patronal: '.$Patron->REG_PAT);
+			$this->fpdf->Cell(8,10,'R.F.C. '.$Patron->RFC_PAT);
 
+			$this->fpdf->Ln(6);
+			$this->fpdf->Cell(120,10,'Nombre o Razon Social: '.$Patron->NOM_PAT);
+			$this->fpdf->Ln(6);
+			$this->fpdf->SetLineWidth(.4);
+			$this->fpdf->Line(10,56,200,56);
+
+			$this->fpdf->Ln(4);
+			$this->fpdf->SetFontSize(7);
+			  
+			$this->fpdf->SetFont('Arial','',8);
+			$width  = array(25,65,16,10,10,12,12,13,28);
+			$height = array(3,6,3,3,3,3,3,3,6,6);
+			$data   = array(array("Numero de \n Seguro Social", 'Nombre del Asegurado', "Fecha \n Inicio","Tipo\n Rgo.", "Con.\n Sec.", "Dias\n Subs.", "Porc.\n Incap.", "Fecha \nTermino", "Observaciones"));
+			$this->_TableMultiCell($this->fpdf,10,$width,$height,$data);			  
+			$this->fpdf->SetLineWidth(.4);
+			$this->fpdf->Line(10,67,200,67);
+			$inicio = $this->_Fecha($inicio);
+			$fin    = $this->_Fecha($fin);
 			
-			$this->fpdf->Output();
+			$trabajadores = $this->prima_model->get_Num_Afiliacion($reg_pat);
+			$this->fpdf->SetFont('Arial','',8);	
+			$height = array(6,6,6,6,6,6,6,6,6);
+			foreach ($trabajadores as $trabajador) {
+				 $data = $this->prima_model->get_datos_inc($reg_pat,$trabajador->NUM_AFIL,$inicio,$fin);
+				foreach ($data as $cols) {
+					$row =  array(array($cols->Num_Afi,$cols->Tip_Rie,$cols->Fecha,'  '.substr($cols->Tip_Rie,0,1),'  '.substr($cols->Con_Inc,0,1),'  '.$cols->Dia_Sub,$cols->Por_Inc,$cols->Por_Inc,$cols->Por_Inc)	);
+					$this->_TableMultiCell($this->fpdf,10,$width,$height,$row);
+				}
+			}
+
+			$width  = array(85,45);
+			$height = array(6,6);
+			$this->fpdf->SetFont('Arial','B',8);	
+			$data   = array(array("Tipo de Riesgo 1 y 3", 'Tipo de Riesgo 2'));
+			$this->_TableMultiCell($this->fpdf,44,$width,$height,$data);
+
+			$width  = array(20,20,20,40,20,20,20,20);
+			$height = array(6,3,3,6,6,3,3,6);
+			$this->fpdf->SetFont('Arial','',8);	
+			$data   = array(array("Casos", "Dias\n Subcidiados","Porcentaje Incapacidad","Defunciones","Casos", "Dias\n Subcidiados","Porcentaje Incapacidad","Defunciones"));
+			$this->_TableMultiCell($this->fpdf,15,$width,$height,$data);
+			$this->_TableMultiCell($this->fpdf,19,$width,$height,array(array(0,0,0,0,0,0,0,0)));
+
+
+
+
+			$width  = array(50);
+			$height = array(6);
+			$this->fpdf->SetFont('Arial','B',8);	
+			$data   = array(array("Total de Riesgos de Trabajo"));
+			$this->_TableMultiCell($this->fpdf,85,$width,$height,$data);
+
+			$width  = array(20,20,20,20);
+			$height = array(6,3,3,6);
+			$this->fpdf->SetFont('Arial','',8);	
+			$data   = array(array("Casos", "Dias\n Subcidiados","Porcentaje Incapacidad","Defunciones"));
+			$this->_TableMultiCell($this->fpdf,70,$width,$height,$data);
+			$this->_TableMultiCell($this->fpdf,74,$width,$height,array(array(0,0,0,0)));
+	
+
+				
+		$this->fpdf->Output();
+
 	}
 	
 	private function _RPT_CaratulaDeterminacion($reg_pat = '',$anio = ''){
@@ -520,9 +568,7 @@ class Prima extends CI_Controller {
 						$this->_TableMultiCell($this->fpdf,10,$width,$height,$row);
 					}
 				}
-			}
-
-			//$this->_TableMultiCell($this->fpdf,10,$width,$height,$data);			  
+			}	
 			$this->fpdf->Output();
 	}
 

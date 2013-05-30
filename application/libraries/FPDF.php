@@ -1,5 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
-
+<?php
 /*******************************************************************************
 * FPDF                                                                         *
 *                                                                              *
@@ -1802,4 +1801,4 @@ if(isset($_SERVER['HTTP_USER_AGENT']) && $_SERVER['HTTP_USER_AGENT']=='contype')
 	exit;
 }
 
-/* End of file Fpdf.php */
+?>

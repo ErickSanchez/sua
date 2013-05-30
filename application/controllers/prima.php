@@ -10,6 +10,7 @@ class Prima extends CI_Controller {
 	public function index(){
 
 	}
+
 	public function seleccionar(){
 		$this->_check_session();
 
@@ -113,9 +114,8 @@ class Prima extends CI_Controller {
 						}
 				}
 			
-			if($Total != 0)
-				return array('Meses'=>$Meses,'Total'=>$Total,'S'=>$S,'N'=> $this->_Decimal((($Total-$S)/365),1));
-			return array();
+			return array('Meses'=>$Meses,'Total'=>$Total,'S'=>$S,'N'=> $this->_Decimal((($Total - $S)/365),1));
+
 	}
 	private function _calculo_Dias($A = 0,$M= 0,$D = 0, $db_A = 0,$db_M = 0,$db_D = 0){
 					$dias = 0;

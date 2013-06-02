@@ -320,9 +320,6 @@ class Prima extends CI_Controller {
 								);
 			 $this->fpdf->Ln(4);					
 			 $this->_Table($this->fpdf,40,array('Mes:','Dias Cotizados:'),$w,$meses,0);
-			  //$this->fpdf->Cell(10,10,'Mes: ',1);
-			  // $this->fpdf->Cell(60,1,1,1);
-			  //$this->fpdf->Cell(2,10,'Dias Cotizados: ');
 			  
 			$this->fpdf->Output();
 	}
@@ -489,37 +486,93 @@ class Prima extends CI_Controller {
 
 	private function _RPT_CasosRT($reg_pat = '',$reg_pats = array(),$anio = ''){
 	
-			$this->fpdf->AddPage();
+			$this->fpdf->AddPage("P","Letter");
 			$Patron = $this->_get_patron($reg_pat);
-			$this->fpdf->SetFont('Arial','B',10);
+			$this->fpdf->SetFont('Arial','B',12);
 			$this->fpdf->Image(FCPATH.'assets/img/imss.png',10,8,33);
 			 $this->fpdf->Ln(10);
 			 $this->fpdf->Cell(40);
 			 $this->fpdf->Cell(100,10,'RELACION DE CASOS DE RIESGOS DE TRABAJO TERMINADOS');
-			 $this->fpdf->Ln(4);
-			 $this->fpdf->SetFont('Arial','B',7);
+			 $this->fpdf->Ln(5);
+			 $this->fpdf->SetFont('Arial','',9);
 			 $this->fpdf->Cell(45);
-			 $this->fpdf->Cell(120,10,'(DURANTE EL PERIODO DEL 1o. DE ENERO AL 31 DE DICIEMBRE DE 2011)');
+			 $this->fpdf->Cell(120,10,"(DURANTE EL PERIODO DEL 1o. DE ENERO AL 31 DE DICIEMBRE DE $anio)");
 			 $this->fpdf->Ln(10);
-			 $this->fpdf->SetFont('Arial','B',5);
-			 $this->fpdf->Cell(8);
-			 $this->fpdf->Cell(100,10,'REGISTRO PATRONAL  D.V.');
-			 $this->fpdf->Cell(120,10,'Fecha de Proceso: '.date('d/m/Y'));
+			 $left = 6;
+			 $this->fpdf->SetFont('Arial','',8);
+			 $this->fpdf->Cell(130,10,'REGISTRO PATRONAL    D.V.');
+			 $this->fpdf->Cell(60,10,'Fecha defunciones Proceso: '.date('d/m/Y'));			 
 			 $this->fpdf->Ln(4);
-			 $this->fpdf->Cell(12);
-			 $this->fpdf->Cell(100,10,''.$Patron->REG_PAT);
-			 $this->fpdf->Ln(4);
-			 $this->fpdf->Cell(8);
-			 $this->fpdf->Cell(60,10,'NOMBRE DENOMINACION O RAZON SOCIAL: ');
-			 $this->fpdf->Cell(80,10,'DOMICILIO: '.$Patron->DOM_PAT);
-			 $this->fpdf->Cell(60,10,'C.P. '.$Patron->CPP_PAT);
-			  $this->fpdf->Ln(4);
-			 $this->fpdf->Cell(12);
-			 $this->fpdf->Cell(56,10,''.$Patron->NOM_PAT);
-			 $this->fpdf->Cell(80,10,'MPIO/DELEG: '.$Patron->MUN_PAT);
-			 $this->fpdf->Cell(60,10,'TEL: '.$Patron->TEL_PAT);
 
-			  
+			 $this->fpdf->Line($left+8,46,40,46);
+			 $this->fpdf->Cell($left);
+			 $this->fpdf->Cell(30,10,substr($Patron->REG_PAT,0,10));
+			 $this->fpdf->Cell(10,10,substr($Patron->REG_PAT,10,1));
+			 $this->fpdf->Ln(5);
+
+			 $this->fpdf->Cell(85,10,'NOMBRE DENOMINACION O RAZON SOCIAL: ');
+			 $this->fpdf->Cell(90,10,'DOMICILIO: 			 '.$Patron->DOM_PAT);
+			 $this->fpdf->Cell(16,10,'C.P. '.$Patron->CPP_PAT);
+			 $this->fpdf->Line(114,51,182,51);
+			 $this->fpdf->Line(192,51,208,51);
+			 $this->fpdf->Ln(5);
+
+			 $this->fpdf->Cell(85,10,''.$Patron->NOM_PAT);
+			 $this->fpdf->Line($left,56,90,56);
+
+			 $this->fpdf->Cell(90,10,'MPIO/DELEG: '.$Patron->MUN_PAT);
+			 $this->fpdf->Cell(20,10,'TEL: '.$Patron->TEL_PAT);
+			 $this->fpdf->Line(114,56,182,56);
+			 $this->fpdf->Line(192,56,208,56);
+
+			 $this->fpdf->SetLineWidth(0.5);
+			 $this->fpdf->Line($left,58,208,58);			 
+			 $this->fpdf->Ln(8);
+
+			 $this->fpdf->SetFont('Arial','',5);
+			 $width  = array(14,23,54,18,18,11,15,18,13,18);
+			 $height = array(3,6,6,2,3,2,3,3,6,3);
+			 $data   = array(array("NUMERO DE\n SEGURIDAD\n SOCIAL",
+			  						'CURP',
+			  							'NOMBRE DEL ASEGURADO',
+			  							"RECAIDA O\n REVALIDACION",
+			  							"FECHA DEL ACCIDENTE O\n ENFERMEDAD\n DE TRABAJO\n\n ".utf8_decode("AÑO")." MES DIA",
+			  							"TIPO DE\n RIESGO",
+			  							"DIAS SUBSIDIADOS",
+			  							"PORCENTAJE DE\n INCAPACIDAD\n PERMANENTE\n PARCIAL O\n TOTAL",
+			  							"DEFUNCION",
+			  							"FECHA DE ALTA \n ".utf8_decode("AÑO")." MES DIA"));
+			  $this->_TableMultiCell($this->fpdf,$left,$width,$height,$data);
+			 $y = 78;
+			 $x = $left;
+			 $this->fpdf->SetLineWidth(0.2);			 
+			 $this->fpdf->Line($x,$y,$x+=13,$y);
+			 $this->fpdf->Line($x+=2,$y,$x+=21,$y);
+			 $this->fpdf->Line($x+=2,$y,$x+=53,$y);
+			 $this->fpdf->Line($x+=2,$y,$x+=14,$y);
+			 $this->fpdf->Line($x+=2,$y,$x+=17,$y);
+			 $this->fpdf->Line($x+=2,$y,$x+=9,$y);
+			 $this->fpdf->Line($x+=2,$y,$x+=13,$y);
+			 $this->fpdf->Line($x+=2,$y,$x+=16,$y);
+			 $this->fpdf->Line($x+=2,$y,$x+=12,$y);
+			 $this->fpdf->Line($x+=2,$y,$x+=17,$y);
+			 $this->fpdf->Ln(16);
+			 $height = array(4,4,4,4,4,4,4,4,4,4);			 
+			 foreach ($reg_pats as $reg_pat) {
+				 $casos_rt = $this->prima_model->get_casos_rt($reg_pat,$anio,true);
+				 foreach ($casos_rt as $caso) {
+				 	$afiliado =	$this->prima_model->get_data_Afiliado($caso->Num_Afi);
+				 	
+				 	if(strtolower($caso->Ind_Def) == 'no')
+				 		$def = '';
+				 	else
+				 		$def = "Si";
+				 	$sp ='      ';
+				 	$rows =  array(array($caso->Num_Afi,$afiliado->CURP,$afiliado->TMP_NOM,$sp,$sp.$caso->inicio,$sp.substr($caso->Tip_Rie,0,1),$sp.$caso->Dia_Sub,$sp.$caso->Por_Inc,$sp.$def,$sp.$caso->fin));
+			  		$this->_TableMultiCell($this->fpdf,$left,$width,$height,$rows);
+
+				 }
+			}
 			 $this->fpdf->Output();
 			
 			

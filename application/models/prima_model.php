@@ -90,14 +90,26 @@ class Prima_model extends CI_Model {
 		}
 		return 0;
 	}
-	public function get_casos_rt($reg_pat = '',$anio = 0){
-		return $this->db->query("SELECT DISTINCT Num_Afi FROM incapacidades WHERE Reg_Pat='$reg_pat' AND YEAR(Fec_Ter) = $anio ")->num_rows;
+	public function get_casos_rt($reg_pat = '',$anio = 0, $data = false){
 		
-	}	
+		if($data)
+			$sql = "SELECT Num_Afi,Tip_Rie,Dia_Sub,Por_Inc,Ind_Def,CONCAT(YEAR(Fec_Acc),'    ',MONTH(Fec_Acc),'    ',DAY(Fec_Acc)) AS inicio,CONCAT(YEAR(Fec_Ter),'    ',MONTH(Fec_Ter),'    ',DAY(Fec_Ter)) AS fin FROM incapacidades WHERE Reg_Pat='$reg_pat' AND YEAR(Fec_Ter) = '$anio' AND Fec_Ter <= NOW() AND Tip_Rie IS NOT NULL AND Tip_Rie != ''";
+		else
+			$sql = "SELECT DISTINCT Num_Afi FROM incapacidades WHERE Reg_Pat='$reg_pat' AND YEAR(Fec_Ter) = $anio AND Fec_Ter <= NOW() AND Tip_Rie IS NOT NULL AND Tip_Rie != ''";
+		
+		$caos_rt = $this->db->query($sql);
 
-	public function get_Num_Afiliacion($reg_pat = ''){
-		return $this->db->query("SELECT NUM_AFIL,TMP_NOM FROM asegura WHERE REG_PATR = '$reg_pat'")->result();
-	}
+	if($data)		
+		return $caos_rt->result();		
+	else
+		return $caos_rt->num_rows;		
+}
+public function get_data_Afiliado($num_afi = ''){
+	return $this->db->query("SELECT NUM_AFIL,CURP,TMP_NOM FROM asegura WHERE NUM_AFIL = '$num_afi'")->row();
+}
+public function get_Num_Afiliacion($reg_pat = ''){
+	return $this->db->query("SELECT NUM_AFIL,TMP_NOM FROM asegura WHERE REG_PATR = '$reg_pat'")->result();
+}
 	public function get_datos_inc($reg_pat,$num_afi,$inicio = '',$fin = '',$ramo = '1'){		
 		$ramo_sql = '';
 			if($ramo)

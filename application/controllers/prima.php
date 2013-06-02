@@ -478,9 +478,69 @@ class Prima extends CI_Controller {
 	private function _RPT_CaratulaDeterminacion($reg_pat = '',$anio = ''){
 
 			$this->fpdf->AddPage('Landscape');
-			$this->fpdf->SetFont('Arial','B',10);
+			$this->fpdf->SetFont('Arial','B',8);
 			$this->fpdf->Image(FCPATH.'assets/img/caratula.png',4,8,290,180);
+			$D = $this->_calculos_prima('',$anio);
+			//echo "<pre>";
+			//print_r($D);
+			//echo "</pre>";
+			//exit();
+			$this->fpdf->Text(262,22,date('d      m      Y'));
+			$this->fpdf->Text(10,72,substr($D['patron']->REG_PAT,0,10).'                 '.substr($D['patron']->REG_PAT,10,1));
+			$this->fpdf->Text(10,81,$D['patron']->NOM_PAT);
+			$this->fpdf->Text(163,77,$D['patron']->DOM_PAT);
+			$this->fpdf->Text(163,81,$D['patron']->MUN_PAT);
 
+			$this->fpdf->Text(74,109,$anio);
+
+			$this->fpdf->Text(255,77,$D['patron']->CPP_PAT);
+			$this->fpdf->Text(255,81,$D['patron']->TEL_PAT);
+
+			$this->fpdf->Text(10,90,$D['patron']->ACT_PAT);
+			$this->fpdf->Text(174,90,$D['patron']->Clase);
+			$this->fpdf->Text(220,90,$D['patron']->Fraccion);
+			$this->fpdf->Text(260,90,$D['Prima_Anterior']);
+			
+			$this->fpdf->Text(152,117,$D['S']);
+			$this->fpdf->Text(190,117,$D['I']);
+			$this->fpdf->Text(213,117,$D['D']);
+			$this->fpdf->Text(234,117,$D['F']);
+			$this->fpdf->Text(249,117,$D['N']);
+			$this->fpdf->Text(269,117,$D['M']);
+
+			$this->fpdf->Text(159,125,substr(($D['S']/$D['DN']),0,12));
+			$this->fpdf->Text(192,125,substr(($D['I']+$D['D']),0,12));
+			$this->fpdf->Text(223,125,substr(($D['F']+$D['N']),0,12));
+			$this->fpdf->Text(254,125,$D['M']);
+			$this->fpdf->Text(271,125,$D['Prima_Resultante']/100);
+			$this->fpdf->Text(120,138,$D['Prima_Resultante']/100);
+			$this->fpdf->Text(195,138,$D['Prima_Resultante']);
+			$this->fpdf->Text(260,142,$D['Prima_Nueva']);
+
+
+
+
+			$this->fpdf->Text(85,122,$D['S']);
+			$this->fpdf->Text(85,134,$D['I']);
+			$this->fpdf->Text(85,144,$D['D']);
+			$this->fpdf->Text(85,154,$D['N']);
+			$this->fpdf->Text(85,169,$D['F']);
+			$this->fpdf->Text(85,175,$D['M']);
+			
+			$this->fpdf->Text(160,162,$anio+1);
+			$this->fpdf->Text(216,162,$anio+2);
+
+
+			if(strtolower($D['patron']->STyPS) == "si")
+				$this->fpdf->Text(140,180,"X");
+			else
+				$this->fpdf->Text(158,180,"X");
+			
+			$this->fpdf->Text(182,180,$D['patron']->Pat_Rep);
+
+
+
+			
 			$this->fpdf->Output();
 	}
 

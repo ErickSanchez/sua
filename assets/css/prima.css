@@ -1,18 +1,7 @@
 
 .label-large 		{ width: 200px !important; padding-right: 10px;}
-.input-xmini 		{width:15px; font-weight: bold; text-align: center;}
-.red 		{background-color: red;}
-.omega{
-  margin-right:0px !important;
-}
-.alpha {
-	margin-left:0px !important;
-}
-input[disabled],
-select[disabled]{
-  background-color: #eee 	;
-}
-/*****Calculo prima****/
-
-/*Reportes*/
-.info 				{height: 200px}
+.input-xmini 		{ width:15px; font-weight: bold; text-align: center;}
+.red 				{ background-color: red;}
+.omega              { margin-right:0px !important;}
+.alpha 				{ margin-left:0px !important;}
+.select 			{cursor: pointer;}

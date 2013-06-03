@@ -77,6 +77,9 @@
 				<li class="menu_option <?= !empty($prima) ? 'button-active' : '';?>">Determinación Prima RT</li>
 				<li class="submenu" <?= !empty($prima) ? 'style="display:list-item;"' : '';?>>
 					<ul id="prima" class="alpha">
+						<li class="menu_suboption" rel="prima/seleccionar">
+							Seleccionar Patron
+						</li>
 						<li class="menu_suboption" rel="prima/calculo_dias">
 							Cálculo de Dias
 						</li>

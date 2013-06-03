@@ -389,7 +389,7 @@ class Prima extends CI_Controller {
 			$this->fpdf->SetFontSize(7);
 			  
 			$this->fpdf->SetFont('Arial','',8);
-			$width  = array(25,65,16,10,10,12,12,13,28);
+			$width  = array(25,65,16,10,10,13,13,16,28);
 			$height = array(3,6,3,3,3,3,3,3,6,6);
 			$data   = array(array("Numero de \n Seguro Social", 'Nombre del Asegurado', "Fecha \n Inicio","Tipo\n Rgo.", "Con.\n Sec.", "Dias\n Subs.", "Porc.\n Incap.", "Fecha \nTermino", "Observaciones"));
 			$this->_TableMultiCell($this->fpdf,10,$width,$height,$data);			  
@@ -401,7 +401,7 @@ class Prima extends CI_Controller {
 			$trabajadores = $this->prima_model->get_Num_Afiliacion($reg_pat);
 			$riesgo_1_3    = array('casos'=>0,'dias'=>0,'porcentaje'=>0,'defunciones'=>0);
 			$riesgo_2      = array('casos'=>0,'dias'=>0,'porcentaje'=>0,'defunciones'=>0);
-			$this->fpdf->SetFont('Arial','',8);	
+			$this->fpdf->SetFont('Arial','',7.5);	
 			$height = array(6,6,6,6,6,6,6,6,6);
 
 			foreach ($trabajadores as $trabajador) {
@@ -414,7 +414,7 @@ class Prima extends CI_Controller {
 						$observaciones = 'Caso Terminado';
 					else
 						$observaciones = 'Caso Pendiente';
-					$row =  array(array($cols->Num_Afi,$trabajador->TMP_NOM,$cols->Fecha,'  '.substr($cols->Tip_Rie,0,1),'  '.substr($cols->Con_Inc,0,1),'  '.$cols->Dia_Sub,$cols->Por_Inc,$cols->Por_Inc,$observaciones)	);
+					$row =  array(array($cols->Num_Afi,$trabajador->TMP_NOM,$cols->Fecha,'  '.substr($cols->Tip_Rie,0,1),'  '.substr($cols->Con_Inc,0,1),'  '.$cols->Dia_Sub,$this->_Decimal($cols->Por_Inc,2),$cols->FechaFin,$observaciones)	);
 					$this->_TableMultiCell($this->fpdf,10,$width,$height,$row);
 					
 					if(substr($cols->Tip_Rie,0,1) == '1' || substr($cols->Tip_Rie,0,1) == '3'){

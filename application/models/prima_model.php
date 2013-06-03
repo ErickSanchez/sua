@@ -115,7 +115,7 @@ public function get_Num_Afiliacion($reg_pat = ''){
 			if($ramo)
 				$ramo_sql = " AND Ram_Seg LIKE '%".$ramo."%' ";
 
-		return $this->db->query("SELECT Num_Afi,Ram_Seg,Tip_Rie,Secuela,Con_Inc,CONCAT(DAY(Fec_Acc),'/',MONTH(Fec_Acc),'/',YEAR(Fec_Acc)) AS Fecha, Fec_Acc AS inicio,Fec_Ter AS fin ,Fol_Inc,Dia_Sub,Por_Inc,Ind_Def 
+		return $this->db->query("SELECT Num_Afi,Ram_Seg,Tip_Rie,Secuela,Con_Inc,CONCAT(DAY(Fec_Acc),'/',MONTH(Fec_Acc),'/',YEAR(Fec_Acc)) AS Fecha, CONCAT(DAY(Fec_Acc),'/',MONTH(Fec_Acc),'/',YEAR(Fec_Acc)) AS FechaFin,Fec_Acc AS inicio,Fec_Ter AS fin ,Fol_Inc,Dia_Sub,Por_Inc,Ind_Def 
 									FROM incapacidades 	WHERE REG_PAT='$reg_pat' AND Num_Afi='$num_afi' AND Fec_Acc >= '$inicio' AND Fec_Ter <= '$fin' ".$ramo_sql)->result();
 	}
 }
